@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "divineapi"
-version = "1.0.0"
+version = "1.0.1"
 description = "Official Python SDK for the Divine API - Astrology, Numerology, Tarot & more"
 readme = "README.md"
 license = {text = "MIT"}
@@ -33,7 +33,8 @@ dependencies = [
 [project.urls]
 Homepage = "https://divineapi.com"
 Documentation = "https://divineapi.com/docs"
-Repository = "https://github.com/niceDevelopers/divine-api-python"
+Repository = "https://github.com/DivineAPI/divineapi-python"
+Issues = "https://github.com/DivineAPI/divineapi-python/issues"
 
 [tool.setuptools.packages.find]
 include = ["divineapi*"]
