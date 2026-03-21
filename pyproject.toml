@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "divineapi"
-version = "1.0.1"
+version = "1.0.2"
 description = "Official Python SDK for the Divine API - Astrology, Numerology, Tarot & more"
 readme = "README.md"
 license = {text = "MIT"}

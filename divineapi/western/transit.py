@@ -81,6 +81,16 @@ class TransitApi:
             "place": place, "lat": lat, "lon": lon, "tzone": tzone,
         })
 
+    def planetary_ingress(
+        self, planet: str, month: int, year: int,
+        place: str, lat: float, lon: float, tzone: float,
+    ) -> Dict[str, Any]:
+        """Planetary Ingress."""
+        return self._c.post("astroapi-8", "/western-api/v1/planetary-ingress", {
+            "planet": planet, "month": month, "year": year,
+            "place": place, "lat": lat, "lon": lon, "tzone": tzone,
+        })
+
     def planet_combustion(
         self, planet: str, month: int, year: int,
         place: str, lat: float, lon: float, tzone: float,
