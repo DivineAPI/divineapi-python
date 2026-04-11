@@ -5,6 +5,7 @@ from typing import Any, Dict
 from ..client import BaseClient
 
 HOST = "astroapi-4"
+HOST8 = "astroapi-8"
 
 
 class SynastryApi:
@@ -59,11 +60,11 @@ class SynastryApi:
 
     def natal_wheel_chart(self, **kw: Any) -> Dict[str, Any]:
         """Synastry Natal Wheel Chart."""
-        return self._post("/western-api/v1/synastry/natal-wheel-chart", **kw)
+        return self._c.post(HOST8, "/western-api/v2/synastry/natal-wheel-chart", self._couple(**kw))
 
-    def aspect(self, **kw: Any) -> Dict[str, Any]:
-        """Synastry Aspect."""
-        return self._post("/western-api/v1/synastry/aspect", **kw)
+    def aspect_table(self, **kw: Any) -> Dict[str, Any]:
+        """Synastry Aspect Table."""
+        return self._c.post(HOST8, "/western-api/v2/synastry/aspect-table", self._couple(**kw))
 
     def harmonious_aspect_reading(self, **kw: Any) -> Dict[str, Any]:
         """Synastry Harmonious Aspect Reading."""

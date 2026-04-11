@@ -65,7 +65,7 @@ class TransitApi:
 
     def monthly(self, **kw: Any) -> Dict[str, Any]:
         """Transit Monthly (pass extensive transit params via **kw)."""
-        return self._post8("/western-api/v1/transit/monthly", **kw)
+        return self._post8("/western-api/v2/transit/monthly", **kw)
 
     def full(self, **kw: Any) -> Dict[str, Any]:
         """Full Transit (pass extensive transit params via **kw)."""
@@ -100,3 +100,11 @@ class TransitApi:
             "planet": planet, "month": month, "year": year,
             "place": place, "lat": lat, "lon": lon, "tzone": tzone,
         })
+
+    def wheel_chart(self, **kw: Any) -> Dict[str, Any]:
+        """Transit Wheel Chart."""
+        return self._post8("/western-api/v1/transit/wheel-chart", **kw)
+
+    def planetary_positions(self, **kw: Any) -> Dict[str, Any]:
+        """Transit Planetary Positions."""
+        return self._post8("/western-api/v1/transit/planetary-positions", **kw)

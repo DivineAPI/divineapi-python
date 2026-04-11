@@ -56,7 +56,7 @@ class NatalApi:
 
     def natal_wheel_chart(self, **kw: Any) -> Dict[str, Any]:
         """Natal Wheel Chart (pass chart styling via **kw)."""
-        return self._post4("/western-api/v2/natal-wheel-chart", **kw)
+        return self._post8("/western-api/v2/natal-wheel-chart", **kw)
 
     def general_sign_report(self, planet: str, **kw: Any) -> Dict[str, Any]:
         """General Sign Report for a planet."""

@@ -154,3 +154,8 @@ class PdfReportApi:
         """Numerology Report PDF."""
         kw["report_code"] = report_code
         return self._post_birth("/numerology/v2/report", **kw)
+
+    def reports_generate(self, report_code: str, **kw: Any) -> Dict[str, Any]:
+        """Reports V2 Generate PDF."""
+        kw["report_code"] = report_code
+        return self._post_birth("/api/v1/reports/generate", **kw)
