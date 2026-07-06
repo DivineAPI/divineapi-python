@@ -69,6 +69,10 @@ client.indian.panchang.auspicious_timings(
     day=10, month=3, year=2024,
     place="Delhi", lat=28.6139, lon=77.2090, tzone=5.5
 )
+client.indian.panchang.find_gowri_panchangam(
+    day=10, month=3, year=2024,
+    place="Chennai", lat=13.0827, lon=80.2707, tzone=5.5
+)
 
 # Planetary transits
 client.indian.panchang.grah_gochar(

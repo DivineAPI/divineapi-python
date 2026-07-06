@@ -152,6 +152,15 @@ class PanchangApi:
         return self._c.post("astroapi-3", "/indian-api/v1/auspicious-timings",
                             self._loc(day, month, year, place, lat, lon, tzone, lan))
 
+    def find_gowri_panchangam(
+        self, day: int, month: int, year: int,
+        place: str, lat: float, lon: float, tzone: float,
+        lan: str = "en",
+    ) -> Dict[str, Any]:
+        """Find Gowri Panchangam."""
+        return self._c.post("astroapi-3", "/indian-api/v1/find-gowri-panchangam",
+                            self._loc(day, month, year, place, lat, lon, tzone, lan))
+
     def inauspicious_timings(
         self, day: int, month: int, year: int,
         place: str, lat: float, lon: float, tzone: float,
