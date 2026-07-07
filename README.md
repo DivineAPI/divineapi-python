@@ -131,6 +131,9 @@ client.indian.festival.find_festival(
 client.indian.festival.malayalam_festivals(
     year=2027, place="Kochi", lat=9.9312, lon=76.2673, tzone=5.5
 )
+client.indian.festival.tamil_festivals(
+    year=2027, place="Chennai", lat=13.0827, lon=80.2707, tzone=5.5
+)
 ```
 
 ### Western Astrology - Natal
