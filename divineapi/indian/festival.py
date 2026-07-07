@@ -113,3 +113,11 @@ class FestivalApi:
         data = self._festival_loc(year, place, lat, lon, tzone)
         data["festival"] = festival
         return self._c.post(HOST, "/indian-api/v1/find-festival", data)
+
+    def malayalam_festivals(
+        self, year: int,
+        place: str, lat: float, lon: float, tzone: float,
+    ) -> Dict[str, Any]:
+        """Malayalam (Kerala) Festivals for a year."""
+        return self._c.post(HOST, "/indian-api/v1/malayalam-festivals",
+                            self._festival_loc(year, place, lat, lon, tzone))

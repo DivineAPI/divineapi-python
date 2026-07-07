@@ -128,6 +128,9 @@ client.indian.festival.find_festival(
     festival="diwali", year=2024,
     place="Delhi", lat=28.6, lon=77.2, tzone=5.5
 )
+client.indian.festival.malayalam_festivals(
+    year=2027, place="Kochi", lat=9.9312, lon=76.2673, tzone=5.5
+)
 ```
 
 ### Western Astrology - Natal
