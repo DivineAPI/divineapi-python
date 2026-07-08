@@ -233,3 +233,93 @@ class KundliApi:
     def sudarshana_chakra(self, **kw: Any) -> Dict[str, Any]:
         """Sudarshana Chakra."""
         return self._post_birth("/indian-api/v1/sudarshana-chakra", **kw)
+
+    # ------------------------------------------------------------------ #
+    # Lal Kitab (16 endpoints)
+    # ------------------------------------------------------------------ #
+
+    def lal_kitab_planetary_positions(self, **kw: Any) -> Dict[str, Any]:
+        """Lal Kitab Planetary Positions."""
+        return self._post_birth("/indian-api/v1/lal-kitab/planetary-positions", **kw)
+
+    def lal_kitab_horoscope_chart(self, **kw: Any) -> Dict[str, Any]:
+        """Lal Kitab Horoscope Chart."""
+        return self._post_birth("/indian-api/v1/lal-kitab/horoscope-chart", **kw)
+
+    def lal_kitab_house_position(self, **kw: Any) -> Dict[str, Any]:
+        """Lal Kitab House Position."""
+        return self._post_birth("/indian-api/v1/lal-kitab/house-position", **kw)
+
+    def lal_kitab_conjunctions(self, **kw: Any) -> Dict[str, Any]:
+        """Lal Kitab Conjunctions."""
+        return self._post_birth("/indian-api/v1/lal-kitab/conjunctions", **kw)
+
+    def lal_kitab_teva(self, **kw: Any) -> Dict[str, Any]:
+        """Lal Kitab Teva."""
+        return self._post_birth("/indian-api/v1/lal-kitab/teva", **kw)
+
+    def lal_kitab_planet_analysis(self, analysis_planet: str, **kw: Any) -> Dict[str, Any]:
+        """Lal Kitab Planet Analysis for a given planet.
+
+        analysis_planet: sun, moon, mars, mercury, jupiter, venus, saturn,
+        rahu or ketu.
+        """
+        kw["analysis_planet"] = analysis_planet
+        return self._post_birth("/indian-api/v1/lal-kitab/planet-analysis", **kw)
+
+    def lal_kitab_dasha(self, **kw: Any) -> Dict[str, Any]:
+        """Lal Kitab Dasha."""
+        return self._post_birth("/indian-api/v1/lal-kitab/dasha", **kw)
+
+    def lal_kitab_planet_types(self, **kw: Any) -> Dict[str, Any]:
+        """Lal Kitab Planet Types."""
+        return self._post_birth("/indian-api/v1/lal-kitab/planet-types", **kw)
+
+    def lal_kitab_mahadasha_content(
+        self, maha_dasha: str, lan: str = "en",
+    ) -> Dict[str, Any]:
+        """Lal Kitab Mahadasha Content (no birth data needed)."""
+        return self._c.post(HOST, "/indian-api/v1/lal-kitab/mahadasha-content", {
+            "maha_dasha": maha_dasha, "lan": lan,
+        })
+
+    def lal_kitab_antardasha_content(
+        self, maha_dasha: str, antar_dasha: str, lan: str = "en",
+    ) -> Dict[str, Any]:
+        """Lal Kitab Antardasha Content (no birth data needed).
+
+        The antar_dasha must be valid for the chosen maha_dasha; the API
+        lists the valid values on mismatch.
+        """
+        return self._c.post(HOST, "/indian-api/v1/lal-kitab/antardasha-content", {
+            "maha_dasha": maha_dasha, "antar_dasha": antar_dasha, "lan": lan,
+        })
+
+    def lal_kitab_debts(self, **kw: Any) -> Dict[str, Any]:
+        """Lal Kitab Debts."""
+        return self._post_birth("/indian-api/v1/lal-kitab/debts", **kw)
+
+    def lal_kitab_house_signification(self, house_no: int, **kw: Any) -> Dict[str, Any]:
+        """Lal Kitab House Signification for a given house (1-12)."""
+        kw["house_no"] = house_no
+        return self._post_birth("/indian-api/v1/lal-kitab/house-signification", **kw)
+
+    def lal_kitab_varshphal_varsha_pravesh(self, varshphal_year: int, **kw: Any) -> Dict[str, Any]:
+        """Lal Kitab Varshphal Varsha Pravesh for the given year."""
+        kw["varshphal_year"] = varshphal_year
+        return self._post_birth("/indian-api/v1/lal-kitab/varshphal/varsha-pravesh", **kw)
+
+    def lal_kitab_varshphal_planetary_positions(self, varshphal_year: int, **kw: Any) -> Dict[str, Any]:
+        """Lal Kitab Varshphal Planetary Positions for the given year."""
+        kw["varshphal_year"] = varshphal_year
+        return self._post_birth("/indian-api/v1/lal-kitab/varshphal/planetary-positions", **kw)
+
+    def lal_kitab_varshphal_muntha(self, varshphal_year: int, **kw: Any) -> Dict[str, Any]:
+        """Lal Kitab Varshphal Muntha for the given year."""
+        kw["varshphal_year"] = varshphal_year
+        return self._post_birth("/indian-api/v1/lal-kitab/varshphal/muntha", **kw)
+
+    def lal_kitab_varshphal_chart(self, varshphal_year: int, **kw: Any) -> Dict[str, Any]:
+        """Lal Kitab Varshphal Chart for the given year."""
+        kw["varshphal_year"] = varshphal_year
+        return self._post_birth("/indian-api/v1/lal-kitab/varshphal/chart", **kw)

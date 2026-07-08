@@ -100,6 +100,18 @@ client.indian.kundli.horoscope_chart("D1", **birth)
 
 # Dasha analysis (no birth data needed)
 client.indian.kundli.maha_dasha_analysis(maha_dasha="Sun")
+
+# Lal Kitab
+client.indian.kundli.lal_kitab_planetary_positions(**birth)
+client.indian.kundli.lal_kitab_teva(**birth)
+client.indian.kundli.lal_kitab_debts(**birth)
+client.indian.kundli.lal_kitab_planet_analysis("sun", **birth)
+client.indian.kundli.lal_kitab_house_signification(1, **birth)
+client.indian.kundli.lal_kitab_varshphal_chart(2026, **birth)
+
+# Lal Kitab dasha content (no birth data needed)
+client.indian.kundli.lal_kitab_mahadasha_content(maha_dasha="saturn")
+client.indian.kundli.lal_kitab_antardasha_content(maha_dasha="saturn", antar_dasha="mercury")
 ```
 
 ### Indian Astrology - Match Making
