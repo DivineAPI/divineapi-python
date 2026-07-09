@@ -146,6 +146,9 @@ client.indian.festival.malayalam_festivals(
 client.indian.festival.tamil_festivals(
     year=2027, place="Chennai", lat=13.0827, lon=80.2707, tzone=5.5
 )
+client.indian.festival.sankranti_festivals(
+    year=2027, place="New Delhi", lat=28.6139, lon=77.2090, tzone=5.5
+)
 ```
 
 ### Western Astrology - Natal
