@@ -323,3 +323,36 @@ class KundliApi:
         """Lal Kitab Varshphal Chart for the given year."""
         kw["varshphal_year"] = varshphal_year
         return self._post_birth("/indian-api/v1/lal-kitab/varshphal/chart", **kw)
+
+    # ------------------------------------------------------------------ #
+    # Additional Kundli Analysis (6 endpoints)
+    # ------------------------------------------------------------------ #
+
+    def vargottama_planets(self, **kw: Any) -> Dict[str, Any]:
+        """Vargottama Planets."""
+        return self._post_birth("/indian-api/v1/vargottama-planets", **kw)
+
+    def bhav_bala(self, **kw: Any) -> Dict[str, Any]:
+        """Bhav Bala."""
+        return self._post_birth("/indian-api/v1/bhav-bala", **kw)
+
+    def shani_ashtam_shani(self, **kw: Any) -> Dict[str, Any]:
+        """Shani Ashtam Shani."""
+        return self._post_birth("/indian-api/v1/shani-ashtam-shani", **kw)
+
+    def bhava_analysis(self, **kw: Any) -> Dict[str, Any]:
+        """Bhava Analysis."""
+        return self._post_birth("/indian-api/v1/bhava-analysis", **kw)
+
+    def bhava_group_predictions(self, **kw: Any) -> Dict[str, Any]:
+        """Bhava Group Predictions."""
+        return self._post_birth("/indian-api/v1/bhava-group-predictions", **kw)
+
+    def planet_remedies(self, analysis_planet: str, **kw: Any) -> Dict[str, Any]:
+        """Planet Remedies for a given planet.
+
+        analysis_planet: sun, moon, mars, mercury, jupiter, venus, saturn,
+        rahu or ketu.
+        """
+        kw["analysis_planet"] = analysis_planet
+        return self._post_birth("/indian-api/v1/planet-remedies", **kw)

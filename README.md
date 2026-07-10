@@ -113,6 +113,14 @@ client.indian.kundli.lal_kitab_varshphal_chart(2026, **birth)
 # Lal Kitab dasha content (no birth data needed)
 client.indian.kundli.lal_kitab_mahadasha_content(maha_dasha="saturn")
 client.indian.kundli.lal_kitab_antardasha_content(maha_dasha="saturn", antar_dasha="mercury")
+
+# Additional kundli analysis
+client.indian.kundli.vargottama_planets(**birth)
+client.indian.kundli.bhav_bala(**birth)
+client.indian.kundli.shani_ashtam_shani(**birth)
+client.indian.kundli.bhava_analysis(**birth)
+client.indian.kundli.bhava_group_predictions(**birth)
+client.indian.kundli.planet_remedies("sun", **birth)   # analysis_planet + birth
 ```
 
 ### Indian Astrology - Match Making
