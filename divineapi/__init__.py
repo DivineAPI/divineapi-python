@@ -5,7 +5,7 @@ Usage::
     from divineapi import DivineApi
 
     client = DivineApi(api_key="your-api-key", auth_token="your-bearer-token")
-    result = client.horoscope.daily(sign="aries", day=10, month=3, year=2024, tzone=5.5)
+    result = client.horoscope.daily(sign="aries", h_day="today", tzone=5.5)
     print(result)
 """
 
@@ -29,7 +29,7 @@ from .numerology import NumerologyApi
 from .pdf import PdfReportApi
 from .western import WesternApi
 
-__version__ = "1.2.0"
+__version__ = "1.3.0"
 
 __all__ = [
     "DivineApi",
@@ -57,7 +57,7 @@ class DivineApi:
         client = DivineApi(api_key="...", auth_token="...")
 
         # Horoscope & Tarot
-        client.horoscope.daily(sign="aries", day=10, month=3, year=2024, tzone=5.5)
+        client.horoscope.daily(sign="aries", h_day="today", tzone=5.5)
 
         # Indian Panchang
         client.indian.panchang.find_panchang(
@@ -100,7 +100,9 @@ class DivineApi:
             full_name="John", day=1, month=1, year=1990,
             hour=10, min=30, sec=0, gender="male",
             place="Mumbai", lat=19.07, lon=72.87, tzone=5.5,
-            company_name="MyCompany",
+            company_name="MyCompany", company_url="https://example.com",
+            company_email="hello@example.com", company_bio="We do astrology.",
+            logo_url="https://example.com/logo.png", footer_text="(c) MyCompany",
         )
     """
 

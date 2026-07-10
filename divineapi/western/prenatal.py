@@ -3,6 +3,7 @@
 from typing import Any, Dict
 
 from ..client import BaseClient
+from ._house_system import resolve_house_system
 
 HOST = "astroapi-8"
 
@@ -25,7 +26,7 @@ class PrenatalApi:
             "full_name": full_name, "day": day, "month": month, "year": year,
             "hour": hour, "min": min, "sec": sec, "gender": gender,
             "place": place, "lat": lat, "lon": lon, "tzone": tzone,
-            "lan": lan, "house_system": house_system,
+            "lan": lan, "house_system": resolve_house_system(house_system),
         }
         d.update(extra)
         return d

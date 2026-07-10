@@ -13,10 +13,10 @@ class CalculatorApi:
     def __init__(self, client: BaseClient) -> None:
         self._c = client
 
-    def flames(self, full_name: str, partner_name: str) -> Dict[str, Any]:
+    def flames(self, your_name: str, partner_name: str) -> Dict[str, Any]:
         """FLAMES Calculator."""
         return self._c.post(HOST, "/calculator/v1/flames-calculator", {
-            "full_name": full_name, "partner_name": partner_name,
+            "your_name": your_name, "partner_name": partner_name,
         })
 
     def love_calculator(

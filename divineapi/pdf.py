@@ -22,23 +22,26 @@ class PdfReportApi:
         full_name: str, day: int, month: int, year: int,
         hour: int, min: int, sec: int, gender: str,
         place: str, lat: float, lon: float, tzone: float,
-        lan: str = "en",
-        company_name: str = "", company_url: str = "",
-        company_email: str = "", company_mobile: str = "",
-        company_bio: str = "", logo_url: str = "",
-        footer_text: str = "",
+        company_name: str, company_url: str, company_email: str,
+        company_bio: str, logo_url: str, footer_text: str,
+        lan: str = "en", company_mobile: str = "",
         **extra: Any,
     ) -> Dict[str, Any]:
+        # The six branding fields are REQUIRED by the PDF backend (it rejects
+        # requests without them). company_mobile is optional and sent only when
+        # provided.
         d: Dict[str, Any] = {
             "full_name": full_name, "day": day, "month": month, "year": year,
             "hour": hour, "min": min, "sec": sec, "gender": gender,
             "place": place, "lat": lat, "lon": lon, "tzone": tzone,
             "lan": lan,
             "company_name": company_name, "company_url": company_url,
-            "company_email": company_email, "company_mobile": company_mobile,
+            "company_email": company_email,
             "company_bio": company_bio, "logo_url": logo_url,
             "footer_text": footer_text,
         }
+        if company_mobile:
+            d["company_mobile"] = company_mobile
         d.update(extra)
         return d
 
@@ -50,13 +53,12 @@ class PdfReportApi:
         p2_full_name: str, p2_day: int, p2_month: int, p2_year: int,
         p2_hour: int, p2_min: int, p2_sec: int, p2_gender: str,
         p2_place: str, p2_lat: float, p2_lon: float, p2_tzone: float,
-        lan: str = "en",
-        company_name: str = "", company_url: str = "",
-        company_email: str = "", company_mobile: str = "",
-        company_bio: str = "", logo_url: str = "",
-        footer_text: str = "",
+        company_name: str, company_url: str, company_email: str,
+        company_bio: str, logo_url: str, footer_text: str,
+        lan: str = "en", company_mobile: str = "",
         **extra: Any,
     ) -> Dict[str, Any]:
+        # The six branding fields are REQUIRED by the PDF backend.
         d: Dict[str, Any] = {
             "p1_full_name": p1_full_name, "p1_day": p1_day, "p1_month": p1_month,
             "p1_year": p1_year, "p1_hour": p1_hour, "p1_min": p1_min,
@@ -68,10 +70,12 @@ class PdfReportApi:
             "p2_lat": p2_lat, "p2_lon": p2_lon, "p2_tzone": p2_tzone,
             "lan": lan,
             "company_name": company_name, "company_url": company_url,
-            "company_email": company_email, "company_mobile": company_mobile,
+            "company_email": company_email,
             "company_bio": company_bio, "logo_url": logo_url,
             "footer_text": footer_text,
         }
+        if company_mobile:
+            d["company_mobile"] = company_mobile
         d.update(extra)
         return d
 
@@ -133,11 +137,14 @@ class PdfReportApi:
     # Astrology / Numerology reports with report_code
     # ------------------------------------------------------------------ #
 
-    def natal_report(self, report_code: str, theme: str = "", **kw: Any) -> Dict[str, Any]:
-        """Natal Report PDF."""
+    def natal_report(self, report_code: str, theme: str, **kw: Any) -> Dict[str, Any]:
+        """Natal Report PDF.
+
+        Both ``report_code`` (e.g. 'CAREER-REPORT') and ``theme`` (e.g. '001')
+        are required by the API, along with the six company branding fields.
+        """
         kw["report_code"] = report_code
-        if theme:
-            kw["theme"] = theme
+        kw["theme"] = theme
         return self._post_birth("/astrology/v2/report", **kw)
 
     def natal_couple_report(self, report_code: str, **kw: Any) -> Dict[str, Any]:

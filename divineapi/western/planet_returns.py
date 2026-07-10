@@ -3,6 +3,7 @@
 from typing import Any, Dict
 
 from ..client import BaseClient
+from ._house_system import resolve_house_system
 
 HOST = "astroapi-8"
 
@@ -25,7 +26,7 @@ class PlanetReturnsApi:
             "full_name": full_name, "day": day, "month": month, "year": year,
             "hour": hour, "min": min, "sec": sec, "gender": gender,
             "place": place, "lat": lat, "lon": lon, "tzone": tzone,
-            "lan": lan, "house_system": house_system,
+            "lan": lan, "house_system": resolve_house_system(house_system),
         }
         d.update(extra)
         return d
@@ -46,14 +47,15 @@ class PlanetReturnsApi:
         return self._c.post(HOST, "/western-api/v1/planet-returns-list", self._birth(**kw))
 
     def planet_return_details(
-        self, planet: str, return_key: str,
+        self, planet: str, return_key: str, return_year: int,
         return_lat: float, return_lon: float,
         return_tzone: float, return_place: str,
         **kw: Any,
     ) -> Dict[str, Any]:
-        """Planet Return Details."""
+        """Planet Return Details (``return_key`` comes from ``planet_return_list``)."""
         kw["planet"] = planet
         kw["return_key"] = return_key
+        kw["return_year"] = return_year
         kw["return_lat"] = return_lat
         kw["return_lon"] = return_lon
         kw["return_tzone"] = return_tzone

@@ -20,16 +20,21 @@ class HoroscopeApi:
     def daily(
         self,
         sign: str,
-        day: int,
-        month: int,
-        year: int,
+        h_day: str,
         tzone: float,
         lan: str = "en",
+        day: Optional[int] = None,
+        month: Optional[int] = None,
+        year: Optional[int] = None,
     ) -> Dict[str, Any]:
-        """Daily Horoscope."""
+        """Daily Horoscope.
+
+        The reading is selected with ``h_day`` ('today', 'tomorrow', or
+        'yesterday'). ``day``/``month``/``year`` are deprecated: the API
+        ignores them and they are accepted only for backward compatibility.
+        """
         return self._c.post(HOST, "/api/v5/daily-horoscope", {
-            "sign": sign, "day": day, "month": month, "year": year,
-            "tzone": tzone, "lan": lan,
+            "sign": sign, "h_day": h_day, "tzone": tzone, "lan": lan,
         })
 
     def weekly(
@@ -39,7 +44,10 @@ class HoroscopeApi:
         tzone: float,
         lan: str = "en",
     ) -> Dict[str, Any]:
-        """Weekly Horoscope."""
+        """Weekly Horoscope.
+
+        ``week`` is a selector: 'current', 'prev', or 'next' (not a date).
+        """
         return self._c.post(HOST, "/api/v5/weekly-horoscope", {
             "sign": sign, "week": week, "tzone": tzone, "lan": lan,
         })
@@ -47,11 +55,15 @@ class HoroscopeApi:
     def monthly(
         self,
         sign: str,
-        month: int,
+        month: str,
         tzone: float,
         lan: str = "en",
     ) -> Dict[str, Any]:
-        """Monthly Horoscope."""
+        """Monthly Horoscope.
+
+        ``month`` is a selector: 'current', 'prev', or 'next' (not a calendar
+        month number).
+        """
         return self._c.post(HOST, "/api/v5/monthly-horoscope", {
             "sign": sign, "month": month, "tzone": tzone, "lan": lan,
         })
@@ -59,11 +71,15 @@ class HoroscopeApi:
     def yearly(
         self,
         sign: str,
-        year: int,
+        year: str,
         tzone: float,
         lan: str = "en",
     ) -> Dict[str, Any]:
-        """Yearly Horoscope."""
+        """Yearly Horoscope.
+
+        ``year`` is a selector: 'current', 'prev', or 'next' (not a calendar
+        year number).
+        """
         return self._c.post(HOST, "/api/v5/yearly-horoscope", {
             "sign": sign, "year": year, "tzone": tzone, "lan": lan,
         })

@@ -1,8 +1,9 @@
 """Western API - Natal endpoints (astroapi-4 and astroapi-8)."""
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict
 
 from ..client import BaseClient
+from ._house_system import resolve_house_system
 
 
 class NatalApi:
@@ -27,7 +28,7 @@ class NatalApi:
             "full_name": full_name, "day": day, "month": month, "year": year,
             "hour": hour, "min": min, "sec": sec, "gender": gender,
             "place": place, "lat": lat, "lon": lon, "tzone": tzone,
-            "lan": lan, "house_system": house_system,
+            "lan": lan, "house_system": resolve_house_system(house_system),
         }
         d.update(extra)
         return d
@@ -44,11 +45,11 @@ class NatalApi:
 
     def planetary_positions(self, **kw: Any) -> Dict[str, Any]:
         """Natal Planetary Positions."""
-        return self._post4("/western-api/v2/planetary-positions", **kw)
+        return self._post4("/western-api/v1/planetary-positions", **kw)
 
     def house_cusps(self, **kw: Any) -> Dict[str, Any]:
         """Natal House Cusps."""
-        return self._post4("/western-api/v2/house-cusps", **kw)
+        return self._post4("/western-api/v1/house-cusps", **kw)
 
     def aspect_table(self, **kw: Any) -> Dict[str, Any]:
         """Natal Aspect Table."""

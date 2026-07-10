@@ -3,6 +3,7 @@
 from typing import Any, Dict
 
 from ..client import BaseClient
+from ._house_system import resolve_house_system
 
 HOST = "astroapi-4"
 HOST8 = "astroapi-8"
@@ -38,7 +39,7 @@ class SynastryApi:
             "p2_year": p2_year, "p2_hour": p2_hour, "p2_min": p2_min,
             "p2_sec": p2_sec, "p2_gender": p2_gender, "p2_place": p2_place,
             "p2_lat": p2_lat, "p2_lon": p2_lon, "p2_tzone": p2_tzone,
-            "lan": lan, "house_system": house_system,
+            "lan": lan, "house_system": resolve_house_system(house_system),
         }
         d.update(extra)
         return d

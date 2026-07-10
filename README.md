@@ -23,9 +23,9 @@ from divineapi import DivineApi
 
 client = DivineApi(api_key="your-api-key", auth_token="your-bearer-token")
 
-# Daily Horoscope
+# Daily Horoscope (h_day = today, tomorrow, or yesterday)
 result = client.horoscope.daily(
-    sign="aries", day=10, month=3, year=2024, tzone=5.5
+    sign="aries", h_day="today", tzone=5.5
 )
 print(result)
 ```
@@ -36,10 +36,11 @@ print(result)
 
 ```python
 # Daily / Weekly / Monthly / Yearly Horoscope
-client.horoscope.daily(sign="aries", day=10, month=3, year=2024, tzone=5.5)
-client.horoscope.weekly(sign="leo", week="thisweek", tzone=5.5)
-client.horoscope.monthly(sign="cancer", month=3, tzone=5.5)
-client.horoscope.yearly(sign="virgo", year=2024, tzone=5.5)
+# daily h_day = today / tomorrow / yesterday; weekly/monthly/yearly = current / prev / next
+client.horoscope.daily(sign="aries", h_day="today", tzone=5.5)
+client.horoscope.weekly(sign="leo", week="current", tzone=5.5)
+client.horoscope.monthly(sign="cancer", month="current", tzone=5.5)
+client.horoscope.yearly(sign="virgo", year="current", tzone=5.5)
 
 # Chinese & Numerology Horoscope
 client.horoscope.chinese(sign="rat", h_day="today", tzone=5.5)
@@ -136,8 +137,9 @@ client.indian.festival.chaitra_festivals(
 client.indian.festival.english_calendar(
     year=2024, month=3, place="Delhi", lat=28.6, lon=77.2, tzone=5.5
 )
+# festival is a lowercase snake_case slug from the Divine festival list
 client.indian.festival.find_festival(
-    festival="diwali", year=2024,
+    festival="maha_shivratri", year=2024,
     place="Delhi", lat=28.6, lon=77.2, tzone=5.5
 )
 client.indian.festival.malayalam_festivals(
@@ -165,7 +167,7 @@ client.western.natal.house_cusps(**birth_w)
 client.western.natal.aspect_table(**birth_w)
 client.western.natal.natal_wheel_chart(**birth_w)
 client.western.natal.natal_insights(**birth_w)
-client.western.natal.dominants(method="traditional", **birth_w)
+client.western.natal.dominants(method="TRADITIONAL", **birth_w)
 ```
 
 ### Western Astrology - Synastry
@@ -224,7 +226,7 @@ client.lifestyle.astro_chic_picks(sign="virgo", h_day="today", tzone=5.5)
 ### Calculators
 
 ```python
-client.calculators.flames(full_name="John", partner_name="Jane")
+client.calculators.flames(your_name="John", partner_name="Jane")
 client.calculators.love_calculator(
     your_name="John", partner_name="Jane",
     your_gender="male", partner_gender="female",
@@ -234,11 +236,15 @@ client.calculators.love_calculator(
 ### PDF Reports
 
 ```python
+# The six branding fields (company_url, logo_url, footer_text, company_name,
+# company_email, company_bio) are REQUIRED by the PDF backend.
 client.pdf.kundali_sampoorna(
     full_name="John", day=1, month=1, year=1990,
     hour=10, min=30, sec=0, gender="male",
     place="Mumbai", lat=19.07, lon=72.87, tzone=5.5,
     company_name="AstroCo", company_url="https://example.com",
+    company_email="hello@example.com", company_bio="We do astrology.",
+    logo_url="https://example.com/logo.png", footer_text="(c) AstroCo",
 )
 ```
 
@@ -250,7 +256,7 @@ from divineapi import DivineApi, AuthenticationError, ValidationError, RateLimit
 client = DivineApi(api_key="...", auth_token="...")
 
 try:
-    result = client.horoscope.daily(sign="aries", day=10, month=3, year=2024, tzone=5.5)
+    result = client.horoscope.daily(sign="aries", h_day="today", tzone=5.5)
 except AuthenticationError as e:
     print(f"Auth failed: {e}")
 except ValidationError as e:
@@ -263,7 +269,7 @@ except RateLimitError as e:
 
 ```python
 with DivineApi(api_key="...", auth_token="...") as client:
-    result = client.horoscope.daily(sign="aries", day=10, month=3, year=2024, tzone=5.5)
+    result = client.horoscope.daily(sign="aries", h_day="today", tzone=5.5)
 ```
 
 ## Configuration

@@ -1,8 +1,9 @@
 """Western API - Progressions endpoints (astroapi-8)."""
 
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 from ..client import BaseClient
+from ._house_system import resolve_house_system
 
 HOST = "astroapi-8"
 
@@ -25,7 +26,7 @@ class ProgressionsApi:
             "full_name": full_name, "day": day, "month": month, "year": year,
             "hour": hour, "min": min, "sec": sec, "gender": gender,
             "place": place, "lat": lat, "lon": lon, "tzone": tzone,
-            "lan": lan, "house_system": house_system,
+            "lan": lan, "house_system": resolve_house_system(house_system),
         }
         d.update(extra)
         return d
@@ -48,15 +49,25 @@ class ProgressionsApi:
         return self._c.post(HOST, "/western-api/v1/planetary-arc-directions", self._birth(**kw))
 
     def secondary_progressions(
-        self, planet: str,
+        self,
         progressed_day: int, progressed_month: int, progressed_year: int,
+        progressed_hour: int, progressed_min: int, progressed_sec: int,
         progressed_type: str,
+        planet: Optional[str] = None,
         **kw: Any,
     ) -> Dict[str, Any]:
-        """Secondary Progressions."""
-        kw["planet"] = planet
+        """Secondary Progressions.
+
+        ``progressed_day/month/year/hour/min/sec`` and ``progressed_type`` are
+        required by the API; ``planet`` is optional.
+        """
         kw["progressed_day"] = progressed_day
         kw["progressed_month"] = progressed_month
         kw["progressed_year"] = progressed_year
+        kw["progressed_hour"] = progressed_hour
+        kw["progressed_min"] = progressed_min
+        kw["progressed_sec"] = progressed_sec
         kw["progressed_type"] = progressed_type
+        if planet is not None:
+            kw["planet"] = planet
         return self._c.post(HOST, "/western-api/v1/secondary-progressions", self._birth(**kw))
