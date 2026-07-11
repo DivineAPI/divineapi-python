@@ -78,6 +78,27 @@ class TransitApi:
         ))
         return self._c.post("astroapi-4", "/western-api/v1/transit/basic", payload)
 
+    def custom_transit(
+        self,
+        transit_day: int, transit_month: int, transit_year: int,
+        transit_lat: float, transit_lon: float,
+        transit_tzone: float, transit_place: str,
+        transit_hour: int = 0, transit_min: int = 0, transit_sec: int = 0,
+        **kw: Any,
+    ) -> Dict[str, Any]:
+        """Custom Transit. Requires the natal birth block plus the full transit
+        moment (date, time and location). Does not send house_system."""
+        payload = self._birth(**kw)
+        payload.pop("house_system", None)
+        payload.update(self._transit_dt(
+            transit_day, transit_month, transit_year,
+            transit_hour, transit_min, transit_sec,
+        ))
+        payload.update(self._transit_loc(
+            transit_lat, transit_lon, transit_tzone, transit_place,
+        ))
+        return self._c.post("astroapi-4", "/western-api/v1/transit/custom", payload)
+
     def daily(self, **kw: Any) -> Dict[str, Any]:
         """Transit Daily."""
         return self._post4("/western-api/v1/transit/daily", **kw)

@@ -73,7 +73,7 @@ class NatalApi:
 
     def ascendant_report(self, **kw: Any) -> Dict[str, Any]:
         """Ascendant Report."""
-        return self._post4("/western-api/v1/ascendant-report", **kw)
+        return self._post4("/western-api/v2/ascendant-report", **kw)
 
     def moon_phase_calendar(self, **kw: Any) -> Dict[str, Any]:
         """Moon Phase Calendar."""
