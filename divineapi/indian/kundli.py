@@ -360,3 +360,74 @@ class KundliApi:
     def rudraksha_suggestion(self, **kw: Any) -> Dict[str, Any]:
         """Rudraksh Suggestion."""
         return self._post_birth("/indian-api/v1/rudraksha-suggestion", **kw)
+
+
+    def varshphal_varsha_pravesh(self, varshphal_year: int, **kw: Any) -> Dict[str, Any]:
+        """Varshphal Varsha Pravesh for the given year."""
+        kw["varshphal_year"] = varshphal_year
+        return self._post_birth("/indian-api/v1/varshphal/varsha-pravesh", **kw)
+
+    def varshphal_basic_astro_details(self, varshphal_year: int, **kw: Any) -> Dict[str, Any]:
+        """Varshphal Basic Astro Details for the given year."""
+        kw["varshphal_year"] = varshphal_year
+        return self._post_birth("/indian-api/v1/varshphal/basic-astro-details", **kw)
+
+    def varshphal_planetary_positions(self, varshphal_year: int, **kw: Any) -> Dict[str, Any]:
+        """Varshphal Planetary Positions for the given year."""
+        kw["varshphal_year"] = varshphal_year
+        return self._post_birth("/indian-api/v1/varshphal/planetary-positions", **kw)
+
+    def varshphal_horoscope_chart(self, varshphal_year: int, chart_id: str = "D1", **kw: Any) -> Dict[str, Any]:
+        """Varshphal Horoscope Chart (D1..D60) for the given year."""
+        kw["varshphal_year"] = varshphal_year
+        return self._post_birth(f"/indian-api/v1/varshphal/horoscope-chart/{chart_id}", **kw)
+
+    def varshphal_tajika_aspect(self, varshphal_year: int, **kw: Any) -> Dict[str, Any]:
+        """Varshphal Tajika Aspect for the given year."""
+        kw["varshphal_year"] = varshphal_year
+        return self._post_birth("/indian-api/v1/varshphal/tajika-aspect", **kw)
+
+    def varshphal_muntha(self, varshphal_year: int, **kw: Any) -> Dict[str, Any]:
+        """Varshphal Muntha for the given year."""
+        kw["varshphal_year"] = varshphal_year
+        return self._post_birth("/indian-api/v1/varshphal/muntha", **kw)
+
+    def varshphal_panchadhikari(self, varshphal_year: int, **kw: Any) -> Dict[str, Any]:
+        """Varshphal Panchadhikari for the given year."""
+        kw["varshphal_year"] = varshphal_year
+        return self._post_birth("/indian-api/v1/varshphal/panchadhikari", **kw)
+
+    def varshphal_tri_pataki_chakra(self, varshphal_year: int, **kw: Any) -> Dict[str, Any]:
+        """Varshphal Tri Pataki Chakra for the given year."""
+        kw["varshphal_year"] = varshphal_year
+        return self._post_birth("/indian-api/v1/varshphal/tri-pataki-chakra", **kw)
+
+    def varshphal_mudda_dasha(self, varshphal_year: int, **kw: Any) -> Dict[str, Any]:
+        """Varshphal Mudda Dasha for the given year."""
+        kw["varshphal_year"] = varshphal_year
+        return self._post_birth("/indian-api/v1/varshphal/mudda-dasha", **kw)
+
+    def varshphal_yogini_dasha(self, varshphal_year: int, **kw: Any) -> Dict[str, Any]:
+        """Varshphal Yogini Dasha for the given year."""
+        kw["varshphal_year"] = varshphal_year
+        return self._post_birth("/indian-api/v1/varshphal/yogini-dasha", **kw)
+
+    def varshphal_patyanini_dasha(self, varshphal_year: int, **kw: Any) -> Dict[str, Any]:
+        """Varshphal Patyanini Dasha for the given year."""
+        kw["varshphal_year"] = varshphal_year
+        return self._post_birth("/indian-api/v1/varshphal/patyanini-dasha", **kw)
+
+    def varshphal_planetary_strengths(self, varshphal_year: int, **kw: Any) -> Dict[str, Any]:
+        """Varshphal Planetary Strengths for the given year."""
+        kw["varshphal_year"] = varshphal_year
+        return self._post_birth("/indian-api/v1/varshphal/planetary-strengths", **kw)
+
+    def varshphal_sahams(self, varshphal_year: int, **kw: Any) -> Dict[str, Any]:
+        """Varshphal Sahams for the given year."""
+        kw["varshphal_year"] = varshphal_year
+        return self._post_birth("/indian-api/v1/varshphal/sahams", **kw)
+
+    def varshphal_yogas(self, varshphal_year: int, **kw: Any) -> Dict[str, Any]:
+        """Varshphal Yogas for the given year."""
+        kw["varshphal_year"] = varshphal_year
+        return self._post_birth("/indian-api/v1/varshphal/yogas", **kw)
