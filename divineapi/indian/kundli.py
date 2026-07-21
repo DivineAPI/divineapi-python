@@ -356,3 +356,7 @@ class KundliApi:
         """
         kw["analysis_planet"] = analysis_planet
         return self._post_birth("/indian-api/v1/planet-remedies", **kw)
+
+    def rudraksha_suggestion(self, **kw: Any) -> Dict[str, Any]:
+        """Rudraksh Suggestion."""
+        return self._post_birth("/indian-api/v1/rudraksha-suggestion", **kw)
