@@ -317,3 +317,85 @@ class PanchangApi:
         """Month Surya Nakshatra list."""
         return self._c.post("astroapi-8", "/indian-api/v1/month-surya-nakshatra-list",
                             self._loc(day, month, year, place, lat, lon, tzone, lan))
+
+
+    def muhurat_marriage(
+        self, month: int, year: int,
+        place: str, lat: float, lon: float, tzone: float,
+        lan: str = "en",
+    ) -> Dict[str, Any]:
+        """Marriage Muhurat."""
+        return self._c.post("astroapi-3", "/indian-api/v1/muhurat/marriage",
+                            self._month_loc(month, year, place, lat, lon, tzone, lan))
+
+    def muhurat_house_entering(
+        self, month: int, year: int,
+        place: str, lat: float, lon: float, tzone: float,
+        lan: str = "en",
+    ) -> Dict[str, Any]:
+        """Griha Pravesh (House Entering) Muhurat."""
+        return self._c.post("astroapi-3", "/indian-api/v1/muhurat/house-entering",
+                            self._month_loc(month, year, place, lat, lon, tzone, lan))
+
+    def muhurat_vehicle_purchase(
+        self, month: int, year: int,
+        place: str, lat: float, lon: float, tzone: float,
+        lan: str = "en",
+    ) -> Dict[str, Any]:
+        """Vehicle Purchase Muhurat."""
+        return self._c.post("astroapi-3", "/indian-api/v1/muhurat/vehicle-purchase",
+                            self._month_loc(month, year, place, lat, lon, tzone, lan))
+
+    def muhurat_property_purchase(
+        self, month: int, year: int,
+        place: str, lat: float, lon: float, tzone: float,
+        lan: str = "en",
+    ) -> Dict[str, Any]:
+        """Property Purchase Muhurat."""
+        return self._c.post("astroapi-3", "/indian-api/v1/muhurat/property-purchase",
+                            self._month_loc(month, year, place, lat, lon, tzone, lan))
+
+    def muhurat_business_start(
+        self, month: int, year: int,
+        place: str, lat: float, lon: float, tzone: float,
+        lan: str = "en",
+    ) -> Dict[str, Any]:
+        """Business Start Muhurat."""
+        return self._c.post("astroapi-3", "/indian-api/v1/muhurat/business-start",
+                            self._month_loc(month, year, place, lat, lon, tzone, lan))
+
+    def muhurat_foundation_laying(
+        self, month: int, year: int,
+        place: str, lat: float, lon: float, tzone: float,
+        lan: str = "en",
+    ) -> Dict[str, Any]:
+        """Foundation Laying (Bhoomi Pujan) Muhurat."""
+        return self._c.post("astroapi-3", "/indian-api/v1/muhurat/foundation-laying",
+                            self._month_loc(month, year, place, lat, lon, tzone, lan))
+
+    def muhurat_do_ghati(
+        self, day: int, month: int, year: int,
+        place: str, lat: float, lon: float, tzone: float,
+        lan: str = "en",
+    ) -> Dict[str, Any]:
+        """Do Ghati Muhurat."""
+        return self._c.post("astroapi-3", "/indian-api/v1/muhurat/do-ghati",
+                            self._loc(day, month, year, place, lat, lon, tzone, lan))
+
+    def muhurat_hora(
+        self, day: int, month: int, year: int,
+        place: str, lat: float, lon: float, tzone: float,
+        lan: str = "en",
+    ) -> Dict[str, Any]:
+        """Hora."""
+        return self._c.post("astroapi-3", "/indian-api/v1/muhurat/hora",
+                            self._loc(day, month, year, place, lat, lon, tzone, lan))
+
+    def muhurat_jain_pachakkhan(
+        self, day: int, month: int, year: int,
+        place: str, lat: float, lon: float, tzone: float,
+        lan: str = "en",
+    ) -> Dict[str, Any]:
+        """Jain Pachakkhan."""
+        return self._c.post("astroapi-3", "/indian-api/v1/muhurat/jain-pachakkhan",
+                            self._loc(day, month, year, place, lat, lon, tzone, lan))
