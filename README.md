@@ -208,6 +208,7 @@ client.western.transit.planet_retrograde(
 # Chaldean numerology
 client.numerology.loshu_grid(fname="John", lname="Doe", day=1, month=1, year=1990)
 client.numerology.name_number(fname="John", lname="Doe", day=1, month=1, year=1990)
+client.numerology.name_correction(full_name="John Doe", day=1, month=1, year=1990)
 
 # Core numbers
 client.numerology.core_numbers(

@@ -75,6 +75,22 @@ class NumerologyApi:
         """Name Number."""
         return self._c.post("astroapi-7", "/numerology/v1/name-number", self._name_dob(**kw))
 
+    def name_correction(
+        self, full_name: str,
+        day: int, month: int, year: int,
+        lan: str = "en",
+    ) -> Dict[str, Any]:
+        """Name Correction: suggest better-aligned spellings of a full name.
+
+        Note: this endpoint takes a single ``full_name`` (not fname/lname
+        like its numerology siblings).
+        """
+        return self._c.post("astroapi-7", "/numerology/v1/name-correction", {
+            "full_name": full_name,
+            "day": day, "month": month, "year": year,
+            "lan": lan,
+        })
+
     def birthday_number(self, **kw: Any) -> Dict[str, Any]:
         """Birthday Number."""
         return self._c.post("astroapi-7", "/numerology/v1/birthday-number", self._name_dob(**kw))
