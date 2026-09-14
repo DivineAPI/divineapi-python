@@ -16,16 +16,38 @@ HOUSE_SYSTEM_MAP = {
     "regiomontanus": "R",
     "campanus": "C",
     "equal": "E",
+    "equal-asc": "A",
+    "equal_asc": "A",
+    "equal-mc": "D",
+    "equal_mc": "D",
+    "vehlow": "V",
+    "vehlow-equal": "V",
     "whole-sign": "W",
     "whole_sign": "W",
     "wholesign": "W",
+    "meridian": "X",
+    "axial-rotation": "X",
     "morinus": "M",
+    "sripati": "S",
+    "topocentric": "T",
+    "polich-page": "T",
     "alcabitius": "B",
+    "whole-sign-aries": "N",
+    "whole_sign_aries": "N",
 }
-VALID_HOUSE_SYSTEM_LETTERS = set(HOUSE_SYSTEM_MAP.values())
+# The full Swiss Ephemeris code set the API accepts. Deliberately NOT derived
+# from HOUSE_SYSTEM_MAP.values(): "A" and "E" are both Equal, so a value-derived
+# set silently omitted A, D, V, X, S, T and N and raised ValueError for them
+# even though the API accepts all sixteen. Verified 2026-09-14 against
+# astroapi-4 /planetary-positions and astroapi-8 /persona-chart.
+VALID_HOUSE_SYSTEM_LETTERS = {
+    "P", "K", "O", "R", "C", "A", "E", "D",
+    "V", "W", "X", "M", "S", "T", "B", "N",
+}
 HOUSE_SYSTEM_FRIENDLY_NAMES = (
-    "placidus, koch, porphyry, regiomontanus, campanus, equal, "
-    "whole-sign, morinus, alcabitius"
+    "placidus, koch, porphyry, regiomontanus, campanus, equal, equal-asc, "
+    "equal-mc, vehlow, whole-sign, meridian, morinus, sripati, topocentric, "
+    "alcabitius, whole-sign-aries"
 )
 
 

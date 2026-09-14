@@ -176,6 +176,12 @@ client.western.natal.aspect_table(**birth_w)
 client.western.natal.natal_wheel_chart(**birth_w)
 client.western.natal.natal_insights(**birth_w)
 client.western.natal.dominants(method="TRADITIONAL", **birth_w)
+client.western.natal.persona_chart(persona_planet="moon", **birth_w)
+
+# persona_chart: chart for the moment, within the first year of life, that the
+# transiting Sun reaches the natal degree of persona_planet. output_include
+# defaults to "raw_data" (~21 KB); image tokens are ~0.5 MB per SVG and
+# output_include="all" returns ~4.3 MB.
 ```
 
 ### Western Astrology - Synastry

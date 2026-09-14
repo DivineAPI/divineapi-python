@@ -132,3 +132,31 @@ class NatalApi:
         """Dominants with method."""
         kw["method"] = method
         return self._post8("/western-api/v1/dominants", **kw)
+
+    def persona_chart(self, persona_planet: str, **kw: Any) -> Dict[str, Any]:
+        """Persona Chart for a chosen natal planet.
+
+        Casts the full chart for the exact moment - within the first year of
+        life - that the transiting Sun reaches the natal degree of
+        ``persona_planet`` (sun, moon, mercury, venus, mars, jupiter, saturn,
+        uranus, neptune or pluto; case-insensitive).
+
+        Returns ``persona_planet``, ``persona_datetime``,
+        ``planetary_positions``, ``house_cusps``, ``aspect_table`` and
+        ``persona_natal_aspect``.
+
+        Optional keyword arguments are passed straight through, including
+        ``node_type`` (meannode | truenode), ``output_include``, the
+        chart-appearance options (``graphic_layout``, ``filter_effect``,
+        ``element_color`` and friends) and the aspect options
+        (``aspects_type``, ``aspect_orbs_type``, ``aspect_orbs_value``).
+
+        ``output_include`` controls response size and defaults to ``raw_data``
+        server-side (~21 KB, data only). Image tokens are large - roughly
+        0.5 MB per SVG, and ``all`` returns around 4.3 MB.
+
+        Note ``persona_planet="sun"`` is accepted but reduces to a
+        one-year-later Solar Return chart.
+        """
+        kw["persona_planet"] = persona_planet
+        return self._post8("/western-api/v1/persona-chart", **kw)
