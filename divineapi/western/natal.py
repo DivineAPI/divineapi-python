@@ -44,8 +44,16 @@ class NatalApi:
     # ------------------------------------------------------------------ #
 
     def planetary_positions(self, **kw: Any) -> Dict[str, Any]:
-        """Natal Planetary Positions."""
-        return self._post4("/western-api/v1/planetary-positions", **kw)
+        """Natal Planetary Positions (18 bodies, including Vertex).
+
+        Served from astroapi-8. The older astroapi-4 version omits Vertex.
+        The response uses the newer envelope - ``{"status": "success",
+        "code": 200, "message": ..., "data": [...]}`` - rather than
+        ``{"success": 1, "data": [...]}``, and invalid input raises
+        :class:`ValidationError` (HTTP 422) instead of returning
+        ``{"success": 2}``. The ``data`` list is unchanged apart from Vertex.
+        """
+        return self._post8("/western-api/v1/planetary-positions", **kw)
 
     def house_cusps(self, **kw: Any) -> Dict[str, Any]:
         """Natal House Cusps."""
@@ -84,7 +92,7 @@ class NatalApi:
         return self._post4("/western-api/v1/natal-insights", **kw)
 
     # ------------------------------------------------------------------ #
-    # astroapi-8 endpoints (11)
+    # astroapi-8 endpoints (12)
     # ------------------------------------------------------------------ #
 
     def arabic_lots(self, **kw: Any) -> Dict[str, Any]:
