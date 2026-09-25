@@ -170,7 +170,7 @@ birth_w = dict(
     place="New York", lat=40.7128, lon=-74.0060, tzone=-5.0,
 )
 
-client.western.natal.planetary_positions(**birth_w)
+client.western.natal.planetary_positions(**birth_w)  # 18 bodies incl. Vertex; see note below
 client.western.natal.house_cusps(**birth_w)
 client.western.natal.aspect_table(**birth_w)
 client.western.natal.natal_wheel_chart(**birth_w)
@@ -183,6 +183,12 @@ client.western.natal.persona_chart(persona_planet="moon", **birth_w)
 # defaults to "raw_data" (~21 KB); image tokens are ~0.5 MB per SVG and
 # output_include="all" returns ~4.3 MB.
 ```
+
+> **`planetary_positions` changed in 1.10.0.** It now calls astroapi-8 instead of astroapi-4, so the response includes **Vertex** (18 bodies instead of 17). Two behaviour changes come with it:
+> - the envelope is `{"status": "success", "code": 200, "message": ..., "data": [...]}` - there is no longer a `success` key, so code checking `resp["success"] == 1` must switch to `resp["status"] == "success"` (or just read `resp["data"]`);
+> - invalid input now raises `ValidationError` (HTTP 422) instead of returning `{"success": 2}`.
+>
+> The `data` list is otherwise unchanged: same fields, same types, identical values for the other 17 bodies.
 
 ### Western Astrology - Synastry
 
