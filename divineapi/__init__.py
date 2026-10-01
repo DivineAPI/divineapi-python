@@ -29,7 +29,7 @@ from .numerology import NumerologyApi
 from .pdf import PdfReportApi
 from .western import WesternApi
 
-__version__ = "1.8.1"
+__version__ = "1.11.0"
 
 __all__ = [
     "DivineApi",

@@ -38,7 +38,7 @@ class KundliApi:
         return self._c.post(HOST, path, self._birth(**kw))
 
     # ------------------------------------------------------------------ #
-    # Jaimini (4 endpoints)
+    # Jaimini (5 endpoints)
     # ------------------------------------------------------------------ #
 
     def jaimini_planetary_positions(self, **kw: Any) -> Dict[str, Any]:
@@ -56,6 +56,14 @@ class KundliApi:
     def jaimini_chara_dasha(self, **kw: Any) -> Dict[str, Any]:
         """Jaimini Chara Dasha."""
         return self._post_birth("/indian-api/v2/jaimini-astrology/chara-dasha", **kw)
+
+    def jaimini_swamsa_chart(self, **kw: Any) -> Dict[str, Any]:
+        """Jaimini Swamsa Chart.
+
+        The D9 (Navamsa) chart recast with the Karakamsha sign as house 1;
+        jaimini_karakamsha_lagna recasts the D1 chart instead.
+        """
+        return self._post_birth("/indian-api/v1/swamsa-chart", **kw)
 
     # ------------------------------------------------------------------ #
     # Sub Planets (2 endpoints)
