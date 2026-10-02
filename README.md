@@ -101,7 +101,9 @@ client.indian.kundli.horoscope_chart("D1", **birth)
 
 # Jaimini
 client.indian.kundli.jaimini_planetary_positions(**birth)
+client.indian.kundli.jaimini_padas(**birth)
 client.indian.kundli.jaimini_karakamsha_lagna(**birth)   # D1 recast from the Karakamsha sign
+client.indian.kundli.jaimini_chara_dasha(**birth)
 client.indian.kundli.jaimini_swamsa_chart(**birth)       # D9 recast from the Karakamsha sign
 
 # jaimini_swamsa_chart returns atmakaraka, swamsha_sign_no, swamsha_sign,
