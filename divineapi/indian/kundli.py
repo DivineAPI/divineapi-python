@@ -47,7 +47,7 @@ class KundliApi:
 
     def jaimini_padas(self, **kw: Any) -> Dict[str, Any]:
         """Jaimini Padas."""
-        return self._post_birth("/indian-api/v2/jaimini-astrology/padas", **kw)
+        return self._post_birth("/indian-api/v1/jaimini-astrology/padas", **kw)
 
     def jaimini_karakamsha_lagna(self, **kw: Any) -> Dict[str, Any]:
         """Jaimini Karakamsha Lagna."""
@@ -55,7 +55,7 @@ class KundliApi:
 
     def jaimini_chara_dasha(self, **kw: Any) -> Dict[str, Any]:
         """Jaimini Chara Dasha."""
-        return self._post_birth("/indian-api/v2/jaimini-astrology/chara-dasha", **kw)
+        return self._post_birth("/indian-api/v1/jaimini-astrology/chara-dasha", **kw)
 
     def jaimini_swamsa_chart(self, **kw: Any) -> Dict[str, Any]:
         """Jaimini Swamsa Chart.
