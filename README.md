@@ -99,6 +99,15 @@ client.indian.kundli.sadhe_sati(**birth)
 client.indian.kundli.yogas(**birth)
 client.indian.kundli.horoscope_chart("D1", **birth)
 
+# Jaimini
+client.indian.kundli.jaimini_planetary_positions(**birth)
+client.indian.kundli.jaimini_karakamsha_lagna(**birth)   # D1 recast from the Karakamsha sign
+client.indian.kundli.jaimini_swamsa_chart(**birth)       # D9 recast from the Karakamsha sign
+
+# jaimini_swamsa_chart returns atmakaraka, swamsha_sign_no, swamsha_sign,
+# lagnamsha_sign_no, lagnamsha_sign and the chart as svg plus base64_image
+# (~10 KB in all). With lan="hi" the names are translated, the numbers are not.
+
 # Dasha analysis (no birth data needed)
 client.indian.kundli.maha_dasha_analysis(maha_dasha="Sun")
 
