@@ -7,6 +7,7 @@
 [![Trial](https://img.shields.io/badge/Trial-14--day-green)](https://divineapi.com/start-trial)
 [![Status](https://img.shields.io/badge/Status-status.divineapi.com-lightgrey)](https://status.divineapi.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/DivineAPI/divineapi-python)
 
 Verified live against the DivineAPI API on 2 October 2026.
 
@@ -395,7 +396,7 @@ with DivineApi(api_key="...", auth_token="...") as client:
 | REST API | [tarot-api](https://github.com/DivineAPI/tarot-api): Tarot API |
 | REST API | [numerology-api](https://github.com/DivineAPI/numerology-api): Numerology API |
 | REST API | [astrology-api](https://github.com/DivineAPI/astrology-api): Astrology API (overview of all domains) |
-| MCP | [mcp-indian-astrology](https://github.com/DivineAPI/mcp-indian-astrology): Vedic astrology MCP server |
+| Model Context Protocol (MCP) | [mcp-indian-astrology](https://github.com/DivineAPI/mcp-indian-astrology): Vedic astrology MCP server |
 | MCP | [mcp-western-astrology](https://github.com/DivineAPI/mcp-western-astrology): Western astrology MCP server |
 | MCP | [mcp-horoscope-numerology](https://github.com/DivineAPI/mcp-horoscope-numerology): Horoscope, tarot and numerology MCP server |
 
