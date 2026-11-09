@@ -24,6 +24,7 @@ HOSTS = {
     "astroapi-7": "https://astroapi-7.divineapi.com",
     "astroapi-8": "https://astroapi-8.divineapi.com",
     "pdf": "https://pdf.divineapi.com",
+    "geolocation": "https://geolocation.divineapi.com",
 }
 
 
