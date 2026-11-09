@@ -101,7 +101,7 @@ class KundliApi:
 
     def kp_planetary_cuspal_significator_table(self, **kw: Any) -> Dict[str, Any]:
         """KP Planetary Cuspal Significator Table."""
-        return self._post_birth("/indian-api/v2/kp/planetary-cuspal-significator-table", **kw)
+        return self._post_birth("/indian-api/v1/kp/planetary-cuspal-significator-table", **kw)
 
     def kp_cuspal_sub(self, **kw: Any) -> Dict[str, Any]:
         """KP Cuspal Sub (v2).
