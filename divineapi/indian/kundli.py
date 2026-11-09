@@ -248,6 +248,18 @@ class KundliApi:
         kw["analysis_planet"] = analysis_planet
         return self._post_birth("/indian-api/v2/planet-analysis", **kw)
 
+    def graha_drishti(self, **kw: Any) -> Dict[str, Any]:
+        """Graha Drishti (Vedic planetary aspects).
+
+        Parashari drishti on whole-sign houses from the Lagna: every graha
+        aspects the 7th; Mars also the 4th/8th, Jupiter the 5th/9th, Saturn
+        the 3rd/10th, Rahu and Ketu the 5th/9th. Returns ``planets`` (each
+        with ``aspects`` and ``aspected_by``) and ``houses`` (each with its
+        ``planets`` and ``aspected_by``). Accepts the optional ``node_type``
+        ("meannode" or "truenode"). Names are in English whatever ``lan``.
+        """
+        return self._post_birth("/indian-api/v1/aspects", **kw)
+
     def sudarshana_chakra(self, **kw: Any) -> Dict[str, Any]:
         """Sudarshana Chakra."""
         return self._post_birth("/indian-api/v1/sudarshana-chakra", **kw)
