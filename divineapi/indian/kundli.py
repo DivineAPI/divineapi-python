@@ -112,6 +112,71 @@ class KundliApi:
         return self._post_birth("/indian-api/v2/kp/cuspal-sub", **kw)
 
     # ------------------------------------------------------------------ #
+    # KP Prashna / horary (4 endpoints)
+    # ------------------------------------------------------------------ #
+
+    @staticmethod
+    def _prashna(
+        day: int, month: int, year: int, hour: int, min: int,
+        place: str, lat: float, lon: float, tzone: float,
+        sec: int = 0, full_name: str = "Querent", gender: str = "other",
+        **extra: Any,
+    ) -> Dict[str, Any]:
+        """Payload for the moment and place a KP Prashna question is asked.
+
+        These are not birth details. The API requires ``full_name`` and
+        ``gender`` but does not use them in the calculation, so they default
+        here; ``gender`` may be "male", "female" or "other".
+        """
+        d: Dict[str, Any] = {
+            "full_name": full_name, "day": day, "month": month, "year": year,
+            "hour": hour, "min": min, "sec": sec, "gender": gender,
+            "place": place, "lat": lat, "lon": lon, "tzone": tzone,
+        }
+        d.update(extra)
+        return d
+
+    def kp_prashna_instant_questions(self) -> Dict[str, Any]:
+        """KP Prashna question categories (no input).
+
+        Each entry has ``key`` (e.g. "marriage"), ``question`` and
+        ``house_hint``, the houses that answer it (marriage: 2, 7, 11).
+        """
+        return self._c.post(HOST, "/indian-api/v1/kp-prashna/instant-questions")
+
+    def kp_prashna_chart(self, horary_number: int, **kw: Any) -> Dict[str, Any]:
+        """KP Prashna (horary) chart.
+
+        ``horary_number`` is the number (1-249) the querent thinks of; the
+        other arguments are the moment and place the question is asked.
+        Returns ``ascendant_source``, ``cusps``, ``planets``,
+        ``significators`` (``houses``, ``planets``) and ``current_dasha``
+        (with ``houses_matching_current_dasha``). The API gives no yes/no
+        verdict. Accepts the optional ``node_type`` ("meannode" or
+        "truenode"). Names are in English.
+        """
+        return self._c.post(HOST, "/indian-api/v1/kp-prashna/chart", self._prashna(horary_number=horary_number, **kw))
+
+    def kp_prashna_ruling_planets(self, **kw: Any) -> Dict[str, Any]:
+        """KP Ruling Planets for a moment and place (no horary number).
+
+        Returns ``ascendant``, ``moon``, ``ruling_planets`` (day lord and the
+        Moon's and Ascendant's sign, star and sub lords) and
+        ``ruling_planets_list`` (the same, de-duplicated). The day lord
+        follows the Vedic day, sunrise to sunrise.
+        """
+        return self._c.post(HOST, "/indian-api/v1/kp-prashna/ruling-planets", self._prashna(**kw))
+
+    def kp_prashna_dasha(self, **kw: Any) -> Dict[str, Any]:
+        """Vimshottari Dasha from the moment a KP Prashna question is asked.
+
+        Returns ``current_dasha`` (maha, antar and pratyantar dasha) and
+        ``dasha_timeline``: the full 120-year tree from the current
+        mahadasha, 819 periods (about 74 KB).
+        """
+        return self._c.post(HOST, "/indian-api/v1/kp-prashna/dasha", self._prashna(**kw))
+
+    # ------------------------------------------------------------------ #
     # Kundali Transit (2 endpoints)
     # ------------------------------------------------------------------ #
 

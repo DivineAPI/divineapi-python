@@ -175,6 +175,15 @@ client.indian.kundli.jaimini_swamsa_chart(**birth)       # D9 recast from the Ka
 # lagnamsha_sign_no, lagnamsha_sign and the chart as svg plus base64_image
 # (~10 KB in all). With lan="hi" the names are translated, the numbers are not.
 
+# KP Prashna (horary): the moment and place the question is asked, not birth data.
+# full_name and gender are optional here (the API requires them but ignores them).
+asked = dict(day=12, month=10, year=2026, hour=10, min=30,
+             place="New Delhi", lat=28.6139, lon=77.2090, tzone=5.5)
+client.indian.kundli.kp_prashna_instant_questions()      # question categories + house_hint
+client.indian.kundli.kp_prashna_chart(horary_number=100, **asked)   # number 1-249
+client.indian.kundli.kp_prashna_ruling_planets(**asked)
+client.indian.kundli.kp_prashna_dasha(**asked)           # full 819-period timeline (~74 KB)
+
 # Dasha analysis (no birth data needed)
 client.indian.kundli.maha_dasha_analysis(maha_dasha="Sun")
 
