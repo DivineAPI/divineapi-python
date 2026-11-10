@@ -90,16 +90,26 @@ class KundliApi:
         return self._post_birth("/indian-api/v2/kp/cuspal", **kw)
 
     def kp_planetary_sub(self, **kw: Any) -> Dict[str, Any]:
-        """KP Planetary Sub."""
-        return self._post_birth("/indian-api/v1/kp/planetary-sub", **kw)
+        """KP Planetary Sub (v2).
+
+        Each ``table_data`` row also carries the planet's KP aspects:
+        ``conjunction``, ``aspected_by`` and ``aspect_to`` (``planets``,
+        ``houses``). Accepts the optional ``node_type`` ("meannode" or
+        "truenode").
+        """
+        return self._post_birth("/indian-api/v2/kp/planetary-sub", **kw)
 
     def kp_planetary_cuspal_significator_table(self, **kw: Any) -> Dict[str, Any]:
         """KP Planetary Cuspal Significator Table."""
-        return self._post_birth("/indian-api/v2/kp/planetary-cuspal-significator-table", **kw)
+        return self._post_birth("/indian-api/v1/kp/planetary-cuspal-significator-table", **kw)
 
     def kp_cuspal_sub(self, **kw: Any) -> Dict[str, Any]:
-        """KP Cuspal Sub."""
-        return self._post_birth("/indian-api/v1/kp/cuspal-sub", **kw)
+        """KP Cuspal Sub (v2).
+
+        Each ``table_data`` row also carries ``aspected_by``: the planets
+        that aspect that cusp.
+        """
+        return self._post_birth("/indian-api/v2/kp/cuspal-sub", **kw)
 
     # ------------------------------------------------------------------ #
     # Kundali Transit (2 endpoints)
