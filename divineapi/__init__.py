@@ -12,6 +12,7 @@ Usage::
 from typing import Any
 
 from .calculators import CalculatorApi
+from .chatbot import ChatbotApi
 from .client import BaseClient
 from .exceptions import (
     AuthenticationError,
@@ -30,7 +31,7 @@ from .numerology import NumerologyApi
 from .pdf import PdfReportApi
 from .western import WesternApi
 
-__version__ = "1.16.0"
+__version__ = "1.18.0"
 
 __all__ = [
     "DivineApi",
@@ -99,6 +100,14 @@ class DivineApi:
         # Location (place name -> lat, lon, timezone)
         client.location.search(place="Patna")
 
+        # Astro Chatbot (needs an Astro Chatbot plan): birth details once per session
+        client.chatbot.chat(
+            user_id="u_1", session_id="s_1", message="When will I get a job?",
+            full_name="Priya", day=24, month=5, year=1996, hour=14, min=40,
+            gender="female", place="New Delhi", lat=28.7041, lon=77.1025, tzone=5.5,
+        )
+        client.chatbot.sessions(user_id="u_1")
+
         # PDF Reports
         client.pdf.kundali_sampoorna(
             full_name="John", day=1, month=1, year=1990,
@@ -132,6 +141,7 @@ class DivineApi:
         self.lifestyle = LifestyleApi(self._client)
         self.calculators = CalculatorApi(self._client)
         self.location = LocationApi(self._client)
+        self.chatbot = ChatbotApi(self._client)
 
     def close(self) -> None:
         """Close the underlying HTTP session."""
