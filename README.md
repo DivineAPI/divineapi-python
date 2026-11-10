@@ -360,6 +360,20 @@ client.pdf.kundali_sampoorna(
     company_bio="YOUR_COMPANY_BIO",
     logo_url="YOUR_LOGO_URL", footer_text="YOUR_FOOTER_TEXT",
 )
+
+branding = dict(
+    company_name="YOUR_COMPANY_NAME", company_url="YOUR_COMPANY_URL",
+    company_email="YOUR_COMPANY_EMAIL", company_mobile="YOUR_COMPANY_MOBILE",
+    company_bio="YOUR_COMPANY_BIO", logo_url="YOUR_LOGO_URL", footer_text="YOUR_FOOTER_TEXT",
+)
+birth = dict(full_name="John", day=1, month=1, year=1990, hour=10, min=30, sec=0,
+             gender="male", place="mumbai", lat=19.07, lon=72.87, tzone=5.5)
+
+# Reports V2 (JSON + x-api-key, handled by the SDK). Needs a DivineAPI PDF account's
+# api_key/auth_token; a standard API account gets 401 "Invalid Bearer token".
+# Returns reportId, htmlUrl, pdfUrl, statusUrl; the report is ready in about 10-30 seconds.
+client.pdf.reports_generate("vedic-career-report", **birth, **branding)
+client.pdf.western_reports_generate("western-inner-moon", tier="snapshot", **birth, **branding)
 ```
 
 ## Error Handling

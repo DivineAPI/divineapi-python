@@ -162,7 +162,36 @@ class PdfReportApi:
         kw["report_code"] = report_code
         return self._post_birth("/numerology/v2/report", **kw)
 
-    def reports_generate(self, report_code: str, **kw: Any) -> Dict[str, Any]:
-        """Reports V2 Generate PDF."""
-        kw["report_code"] = report_code
-        return self._post_birth("/api/v1/reports/generate", **kw)
+    # ------------------------------------------------------------------ #
+    # Reports V2 (JSON body + x-api-key header)
+    # ------------------------------------------------------------------ #
+
+    @staticmethod
+    def _v2_payload(report_type: str, kw: Dict[str, Any]) -> Dict[str, Any]:
+        return {"report_type": report_type, **kw}
+
+    def reports_generate(self, report_type: str, **kw: Any) -> Dict[str, Any]:
+        """Reports V2: Vedic and Numerology reports (``/api/v1/reports/generate``).
+
+        ``report_type`` is the report slug, e.g. ``"vedic-career-report"``. Pass
+        the birth details and the seven branding fields (including
+        ``company_mobile``) as keyword arguments; optional design fields go the
+        same way. Returns ``reportId``, ``htmlUrl``, ``pdfUrl``, ``statusUrl``
+        and ``status``.
+
+        Reports V2 only accepts DivineAPI PDF accounts: create the client with
+        that account's api_key and auth_token. A standard API account gets
+        401 "Invalid Bearer token".
+        """
+        return self._c.post_json(HOST, "/api/v1/reports/generate", self._v2_payload(report_type, kw))
+
+    def western_reports_generate(self, report_type: str, **kw: Any) -> Dict[str, Any]:
+        """Reports V2: Western reports (``/api/v1/western/reports/generate``).
+
+        ``report_type`` is a Western slug (e.g. ``"western-natal-blueprint"``) or
+        a family code with ``tier`` (``snapshot``, ``insight``, ``advanced`` or
+        ``comprehensive``). Same birth and branding fields as
+        :meth:`reports_generate`, plus optional Western design fields such as
+        ``house_system`` and ``theme``.
+        """
+        return self._c.post_json(HOST, "/api/v1/western/reports/generate", self._v2_payload(report_type, kw))
