@@ -359,6 +359,8 @@ client.pdf.kundali_sampoorna(
     company_email="YOUR_COMPANY_EMAIL", company_mobile="YOUR_COMPANY_MOBILE",
     company_bio="YOUR_COMPANY_BIO",
     logo_url="YOUR_LOGO_URL", footer_text="YOUR_FOOTER_TEXT",
+    # Optional cover (the 9 Vedic V1 PDFs): show only your image on page 1
+    front_image="https://example.com/cover.png", hide_frontpage_details=True,
 )
 
 branding = dict(
@@ -374,6 +376,10 @@ birth = dict(full_name="John", day=1, month=1, year=1990, hour=10, min=30, sec=0
 # Returns reportId, htmlUrl, pdfUrl, statusUrl; the report is ready in about 10-30 seconds.
 client.pdf.reports_generate("vedic-career-report", **birth, **branding)
 client.pdf.western_reports_generate("western-inner-moon", tier="snapshot", **birth, **branding)
+
+# hide_frontpage_details=True shows only front_image on the cover (requires front_image)
+client.pdf.reports_generate("vedic-career-report", **birth, **branding,
+                            front_image="https://example.com/cover.png", hide_frontpage_details=True)
 ```
 
 ## Error Handling

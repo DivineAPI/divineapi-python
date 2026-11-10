@@ -79,26 +79,46 @@ class PdfReportApi:
         d.update(extra)
         return d
 
+    @staticmethod
+    def _v1_flags(kw: Dict[str, Any]) -> Dict[str, Any]:
+        # The V1 PDF endpoints accept hide_frontpage_details only as 0/1; a Python
+        # bool would be form-encoded as "True"/"False" and rejected.
+        if isinstance(kw.get("hide_frontpage_details"), bool):
+            kw["hide_frontpage_details"] = int(kw["hide_frontpage_details"])
+        return kw
+
     def _post_birth(self, path: str, **kw: Any) -> Dict[str, Any]:
-        return self._c.post(HOST, path, self._birth_company(**kw))
+        return self._c.post(HOST, path, self._birth_company(**self._v1_flags(kw)))
 
     def _post_couple(self, path: str, **kw: Any) -> Dict[str, Any]:
-        return self._c.post(HOST, path, self._couple_company(**kw))
+        return self._c.post(HOST, path, self._couple_company(**self._v1_flags(kw)))
 
     # ------------------------------------------------------------------ #
     # Kundali PDFs (3)
     # ------------------------------------------------------------------ #
 
     def kundali_sampoorna(self, **kw: Any) -> Dict[str, Any]:
-        """Kundali Sampoorna PDF."""
+        """Kundali Sampoorna PDF.
+
+        Optional cover: ``front_image`` (URL) and ``hide_frontpage_details``
+        (True shows only the image; sent as 1, as this API expects).
+        """
         return self._post_birth("/indian-api/v2/kundali-sampoorna", **kw)
 
     def kundali_ananta(self, **kw: Any) -> Dict[str, Any]:
-        """Kundali Ananta PDF."""
+        """Kundali Ananta PDF.
+
+        Optional cover: ``front_image`` (URL) and ``hide_frontpage_details``
+        (True shows only the image; sent as 1, as this API expects).
+        """
         return self._post_birth("/indian-api/v2/kundali-ananta", **kw)
 
     def kundali_prakash(self, **kw: Any) -> Dict[str, Any]:
-        """Kundali Prakash PDF."""
+        """Kundali Prakash PDF.
+
+        Optional cover: ``front_image`` (URL) and ``hide_frontpage_details``
+        (True shows only the image; sent as 1, as this API expects).
+        """
         return self._post_birth("/indian-api/v2/kundali-prakash", **kw)
 
     # ------------------------------------------------------------------ #
@@ -106,7 +126,11 @@ class PdfReportApi:
     # ------------------------------------------------------------------ #
 
     def match_making(self, **kw: Any) -> Dict[str, Any]:
-        """Match Making PDF (couple params)."""
+        """Match Making PDF (couple params).
+
+        Optional cover: ``front_image`` (URL) and ``hide_frontpage_details``
+        (True shows only the image; sent as 1, as this API expects).
+        """
         return self._post_couple("/indian-api/v2/match-making", **kw)
 
     # ------------------------------------------------------------------ #
@@ -114,23 +138,43 @@ class PdfReportApi:
     # ------------------------------------------------------------------ #
 
     def government_job(self, **kw: Any) -> Dict[str, Any]:
-        """Government Job Report PDF."""
+        """Government Job Report PDF.
+
+        Optional cover: ``front_image`` (URL) and ``hide_frontpage_details``
+        (True shows only the image; sent as 1, as this API expects).
+        """
         return self._post_birth("/indian-api/v2/government-job-report", **kw)
 
     def foreign_travel(self, **kw: Any) -> Dict[str, Any]:
-        """Foreign Travel Settlement PDF."""
+        """Foreign Travel Settlement PDF.
+
+        Optional cover: ``front_image`` (URL) and ``hide_frontpage_details``
+        (True shows only the image; sent as 1, as this API expects).
+        """
         return self._post_birth("/indian-api/v2/foreign-travel-settlement", **kw)
 
     def vedic_yearly_5_year(self, **kw: Any) -> Dict[str, Any]:
-        """Vedic Yearly Prediction 5-Year PDF."""
+        """Vedic Yearly Prediction 5-Year PDF.
+
+        Optional cover: ``front_image`` (URL) and ``hide_frontpage_details``
+        (True shows only the image; sent as 1, as this API expects).
+        """
         return self._post_birth("/indian-api/v2/vedic-yearly-prediction-5-year", **kw)
 
     def vedic_yearly_10_year(self, **kw: Any) -> Dict[str, Any]:
-        """Vedic Yearly Prediction 10-Year PDF."""
+        """Vedic Yearly Prediction 10-Year PDF.
+
+        Optional cover: ``front_image`` (URL) and ``hide_frontpage_details``
+        (True shows only the image; sent as 1, as this API expects).
+        """
         return self._post_birth("/indian-api/v2/vedic-yearly-prediction-10-year", **kw)
 
     def vedic_yearly_15_year(self, **kw: Any) -> Dict[str, Any]:
-        """Vedic Yearly Prediction 15-Year PDF."""
+        """Vedic Yearly Prediction 15-Year PDF.
+
+        Optional cover: ``front_image`` (URL) and ``hide_frontpage_details``
+        (True shows only the image; sent as 1, as this API expects).
+        """
         return self._post_birth("/indian-api/v2/vedic-yearly-prediction-15-year", **kw)
 
     # ------------------------------------------------------------------ #
@@ -168,16 +212,21 @@ class PdfReportApi:
 
     @staticmethod
     def _v2_payload(report_type: str, kw: Dict[str, Any]) -> Dict[str, Any]:
-        return {"report_type": report_type, **kw}
+        payload: Dict[str, Any] = {"report_type": report_type, **kw}
+        # Reports V2 wants a real boolean (or "true"/"false"); accept 0/1 too.
+        if "hide_frontpage_details" in payload and payload["hide_frontpage_details"] in (0, 1):
+            payload["hide_frontpage_details"] = bool(payload["hide_frontpage_details"])
+        return payload
 
     def reports_generate(self, report_type: str, **kw: Any) -> Dict[str, Any]:
         """Reports V2: Vedic and Numerology reports (``/api/v1/reports/generate``).
 
         ``report_type`` is the report slug, e.g. ``"vedic-career-report"``. Pass
         the birth details and the seven branding fields (including
-        ``company_mobile``) as keyword arguments; optional design fields go the
-        same way. Returns ``reportId``, ``htmlUrl``, ``pdfUrl``, ``statusUrl``
-        and ``status``.
+        ``company_mobile``) as keyword arguments; optional design fields such as
+        ``front_image`` and ``hide_frontpage_details`` (True shows only the
+        cover image; requires ``front_image``) go the same way. Returns
+        ``reportId``, ``htmlUrl``, ``pdfUrl``, ``statusUrl`` and ``status``.
 
         Reports V2 only accepts DivineAPI PDF accounts: create the client with
         that account's api_key and auth_token. A standard API account gets
@@ -192,6 +241,7 @@ class PdfReportApi:
         a family code with ``tier`` (``snapshot``, ``insight``, ``advanced`` or
         ``comprehensive``). Same birth and branding fields as
         :meth:`reports_generate`, plus optional Western design fields such as
-        ``house_system`` and ``theme``.
+        ``house_system`` and ``theme``. ``hide_frontpage_details`` requires
+        ``front_image``.
         """
         return self._c.post_json(HOST, "/api/v1/western/reports/generate", self._v2_payload(report_type, kw))
