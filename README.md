@@ -162,6 +162,7 @@ client.indian.kundli.vimshottari_dasha(**birth)
 client.indian.kundli.sadhe_sati(**birth)
 client.indian.kundli.yogas(**birth)
 client.indian.kundli.horoscope_chart("D1", **birth)
+client.indian.kundli.graha_drishti(**birth)   # Vedic aspects: planets -> houses and planets
 
 # Jaimini
 client.indian.kundli.jaimini_planetary_positions(**birth)
