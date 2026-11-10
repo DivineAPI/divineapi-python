@@ -92,6 +92,37 @@ class BaseClient:
         # Should never reach here, but just in case:
         raise NetworkError(str(last_exc))  # pragma: no cover
 
+    def post_json(
+        self,
+        host: str,
+        path: str,
+        data: Optional[Dict[str, Any]] = None,
+    ) -> Dict[str, Any]:
+        """Send a POST request with a JSON body and the API key in an ``x-api-key`` header.
+
+        Used by Reports V2 (``/api/v1/reports/generate`` and
+        ``/api/v1/western/reports/generate``), which rejects form-encoded
+        requests with 401 "x-api-key header required".
+        """
+        url = f"{HOSTS[host]}{path}"
+        last_exc: Optional[Exception] = None
+        for attempt in range(1, self.max_retries + 1):
+            try:
+                resp = self._session.post(
+                    url, json=dict(data or {}), headers={"x-api-key": self.api_key},
+                    timeout=self.timeout,
+                )
+                return self._handle_response(resp)
+            except NetworkError:
+                raise
+            except requests.RequestException as exc:
+                last_exc = exc
+                if attempt == self.max_retries:
+                    raise NetworkError(
+                        f"Request to {url} failed after {self.max_retries} attempts: {exc}"
+                    ) from exc
+        raise NetworkError(str(last_exc))  # pragma: no cover
+
     # --------------------------------------------------------------------- #
     # Internal
     # --------------------------------------------------------------------- #
