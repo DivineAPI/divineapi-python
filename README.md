@@ -330,6 +330,20 @@ client.calculators.love_calculator(
 )
 ```
 
+### Location
+
+```python
+# Place name (at least 3 characters) -> up to 10 matches with lat, lon and timezone
+res = client.location.search(place="Patna")
+first = res["data"]["results"][0]
+first["latitude"], first["longitude"], first["timezone"]   # 25.41667, 85.16667, "Asia/Kolkata"
+
+# timezone_value is the zone's UTC offset today. For a birth date in a zone with
+# summer time (e.g. America/New_York: -5 in winter, -4 in summer) work out the offset
+# for that date from first["timezone"] before passing it as tzone.
+# Place data (c) GeoNames (geonames.org), CC BY 4.0: res["attribution"].
+```
+
 ### PDF Reports
 
 ```python

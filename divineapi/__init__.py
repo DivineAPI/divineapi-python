@@ -25,11 +25,12 @@ from .exceptions import (
 from .horoscope import HoroscopeApi
 from .indian import IndianApi
 from .lifestyle import LifestyleApi
+from .location import LocationApi
 from .numerology import NumerologyApi
 from .pdf import PdfReportApi
 from .western import WesternApi
 
-__version__ = "1.13.0"
+__version__ = "1.14.0"
 
 __all__ = [
     "DivineApi",
@@ -95,6 +96,9 @@ class DivineApi:
             gender="male", method="pythagorean",
         )
 
+        # Location (place name -> lat, lon, timezone)
+        client.location.search(place="Patna")
+
         # PDF Reports
         client.pdf.kundali_sampoorna(
             full_name="John", day=1, month=1, year=1990,
@@ -127,6 +131,7 @@ class DivineApi:
         self.numerology = NumerologyApi(self._client)
         self.lifestyle = LifestyleApi(self._client)
         self.calculators = CalculatorApi(self._client)
+        self.location = LocationApi(self._client)
 
     def close(self) -> None:
         """Close the underlying HTTP session."""
