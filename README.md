@@ -156,6 +156,11 @@ birth = dict(
 )
 
 client.indian.kundli.basic_astro_details(**birth)
+# weekday="vedic": the day changes at sunrise, so a birth before sunrise gets the
+# previous day's vaar. "civil" (default) changes it at midnight. Also accepted by
+# varshphal_varsha_pravesh, varshphal_basic_astro_details and
+# lal_kitab_varshphal_varsha_pravesh.
+client.indian.kundli.basic_astro_details(**birth, weekday="vedic")
 client.indian.kundli.planetary_positions(**birth)
 client.indian.kundli.manglik_dosha(**birth)
 client.indian.kundli.vimshottari_dasha(**birth)
