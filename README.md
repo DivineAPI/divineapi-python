@@ -108,6 +108,10 @@ client.horoscope.yearly(sign="virgo", year="current", tzone=5.5)
 
 # Chinese & Numerology Horoscope
 client.horoscope.chinese(sign="rat", h_day="today", tzone=5.5)
+# Chinese weekly / monthly / yearly: sign is a Chinese animal; current / prev / next
+client.horoscope.chinese_weekly(sign="rat", week="current", tzone=5.5)
+client.horoscope.chinese_monthly(sign="dragon", month="current", tzone=5.5)
+client.horoscope.chinese_yearly(sign="tiger", year="current", tzone=5.5)
 client.horoscope.numerology(number=7, day=10, month=3, year=2024, tzone=5.5)
 
 # Tarot & Readings

@@ -31,7 +31,7 @@ from .numerology import NumerologyApi
 from .pdf import PdfReportApi
 from .western import WesternApi
 
-__version__ = "1.19.0"
+__version__ = "1.20.0"
 
 __all__ = [
     "DivineApi",
