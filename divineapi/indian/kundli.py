@@ -54,8 +54,11 @@ class KundliApi:
     # ------------------------------------------------------------------ #
 
     def jaimini_planetary_positions(self, **kw: Any) -> Dict[str, Any]:
-        """Jaimini Planetary Positions."""
-        return self._post_birth("/indian-api/v1/jaimini-astrology/planetary-positions", **kw)
+        """Jaimini Planetary Positions (v2: nakshatra spellings Mrigashira, Shravan).
+
+        Only planetary-positions has a v2; padas and karakamsha-lagna stay on v1.
+        """
+        return self._post_birth("/indian-api/v2/jaimini-astrology/planetary-positions", **kw)
 
     def jaimini_padas(self, **kw: Any) -> Dict[str, Any]:
         """Jaimini Padas."""
@@ -82,20 +85,23 @@ class KundliApi:
     # ------------------------------------------------------------------ #
 
     def sub_planet_positions(self, **kw: Any) -> Dict[str, Any]:
-        """Sub Planet Positions."""
-        return self._post_birth("/indian-api/v1/sub-planet-positions", **kw)
+        """Sub Planet Positions (v2: nakshatra spellings Mrigashira, Shravan)."""
+        return self._post_birth("/indian-api/v2/sub-planet-positions", **kw)
 
     def sub_planet_chart(self, **kw: Any) -> Dict[str, Any]:
-        """Sub Planet Chart (supports chart styling params via **kw)."""
-        return self._post_birth("/indian-api/v2/sub-planet-chart", **kw)
+        """Sub Planet Chart (supports chart styling params via **kw).
+
+        v1 is the only version: there is no v2 sub-planet-chart (it returns 404).
+        """
+        return self._post_birth("/indian-api/v1/sub-planet-chart", **kw)
 
     # ------------------------------------------------------------------ #
     # KP (5 endpoints)
     # ------------------------------------------------------------------ #
 
     def kp_planetary_positions(self, **kw: Any) -> Dict[str, Any]:
-        """KP Planetary Positions."""
-        return self._post_birth("/indian-api/v1/kp/planetary-positions", **kw)
+        """KP Planetary Positions (v2: nakshatra spellings Mrigashira, Shravan)."""
+        return self._post_birth("/indian-api/v2/kp/planetary-positions", **kw)
 
     def kp_cuspal(self, **kw: Any) -> Dict[str, Any]:
         """KP Cuspal."""
@@ -241,8 +247,8 @@ class KundliApi:
         return self._post_birth("/indian-api/v1/ghata-chakra", **kw)
 
     def shadbala(self, **kw: Any) -> Dict[str, Any]:
-        """Shadbala."""
-        return self._post_birth("/indian-api/v2/shadbala", **kw)
+        """Shadbala (v3: adds ``ishta_phala`` and ``kashta_phala`` per planet)."""
+        return self._post_birth("/indian-api/v3/shadbala", **kw)
 
     def gemstone_suggestion(self, **kw: Any) -> Dict[str, Any]:
         """Gemstone Suggestions."""
