@@ -68,16 +68,24 @@ class NatalApi:
         return self._post8("/western-api/v2/natal-wheel-chart", **kw)
 
     def general_sign_report(self, planet: str, **kw: Any) -> Dict[str, Any]:
-        """General Sign Report for a planet."""
-        return self._post4(f"/western-api/v1/general-sign-report/{planet}", **kw)
+        """General Sign Report for a planet.
+
+        v2: ``data.report`` is a list of ``{"heading", "description"}`` sections
+        (v1 returned one string).
+        """
+        return self._post4(f"/western-api/v2/general-sign-report/{planet}", **kw)
 
     def general_house_report(self, planet: str, **kw: Any) -> Dict[str, Any]:
-        """General House Report for a planet."""
-        return self._post4(f"/western-api/v1/general-house-report/{planet}", **kw)
+        """General House Report for a planet.
+
+        v2: ``data.report`` is a list of ``{"heading", "description"}`` sections
+        (v1 returned one string).
+        """
+        return self._post4(f"/western-api/v2/general-house-report/{planet}", **kw)
 
     def moon_phases(self, **kw: Any) -> Dict[str, Any]:
-        """Moon Phases."""
-        return self._post4("/western-api/v1/moon-phases", **kw)
+        """Moon Phases (v2: adds ``natal_moon`` and ``content`` to phase_no, phase_name, phase_degree)."""
+        return self._post4("/western-api/v2/moon-phases", **kw)
 
     def ascendant_report(self, **kw: Any) -> Dict[str, Any]:
         """Ascendant Report."""

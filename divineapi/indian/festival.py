@@ -13,6 +13,11 @@ _HINDU_MONTHS = [
     "kartika", "pausha",
 ]
 
+# API version per month. Only shraavana has a v3 (DV-374): in v2, four of its
+# festivals (hariyaali_teej, gayatri_jayanti, narali_purnima, sanskrit_divas)
+# return their date under "dates" instead of "date"; v3 fixes those four.
+_MONTH_VERSION = {"shraavana": "v3"}
+
 
 class FestivalApi:
     """Festival endpoints (Hindu month festivals, English calendar, date-specific, festival-specific)."""
@@ -43,7 +48,8 @@ class FestivalApi:
         self, month_slug: str,
         year: int, place: str, lat: float, lon: float, tzone: float,
     ) -> Dict[str, Any]:
-        return self._c.post(HOST, f"/indian-api/v2/{month_slug}-festivals",
+        version = _MONTH_VERSION.get(month_slug, "v2")
+        return self._c.post(HOST, f"/indian-api/{version}/{month_slug}-festivals",
                             self._festival_loc(year, place, lat, lon, tzone))
 
     def margashirsh_festivals(self, year: int, place: str, lat: float, lon: float, tzone: float) -> Dict[str, Any]:
