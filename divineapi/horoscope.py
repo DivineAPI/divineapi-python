@@ -108,7 +108,7 @@ class HoroscopeApi:
         ``sign`` is a Chinese animal sign (rat, ox, tiger, rabbit, dragon, snake,
         horse, goat, monkey, rooster, dog, pig). ``week`` is a selector:
         'current', 'prev', or 'next' (not a date). ``data`` has ``sign``,
-        ``week`` (e.g. "10 Nov 2026 to 16 Nov 2026") and ``prediction``
+        ``week`` (e.g. "08 Nov 2026 to 14 Nov 2026") and ``prediction``
         (growth, health, wealth, career, love, family, fortune).
         """
         return self._c.post(HOST, "/api/v3/chinese-horoscope-weekly", {
