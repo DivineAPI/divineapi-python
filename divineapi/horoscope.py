@@ -8,7 +8,7 @@ HOST = "astroapi-5"
 
 
 class HoroscopeApi:
-    """29 endpoints covering horoscopes, tarot, and miscellaneous readings."""
+    """32 endpoints covering horoscopes, tarot, and miscellaneous readings."""
 
     def __init__(self, client: BaseClient) -> None:
         self._c = client
@@ -91,9 +91,62 @@ class HoroscopeApi:
         tzone: float,
         lan: str = "en",
     ) -> Dict[str, Any]:
-        """Chinese Horoscope."""
+        """Chinese Horoscope (daily: ``h_day`` is 'today', 'tomorrow' or 'yesterday')."""
         return self._c.post(HOST, "/api/v3/chinese-horoscope", {
             "sign": sign, "h_day": h_day, "tzone": tzone, "lan": lan,
+        })
+
+    def chinese_weekly(
+        self,
+        sign: str,
+        week: str,
+        tzone: float,
+        lan: str = "en",
+    ) -> Dict[str, Any]:
+        """Weekly Chinese Horoscope.
+
+        ``sign`` is a Chinese animal sign (rat, ox, tiger, rabbit, dragon, snake,
+        horse, goat, monkey, rooster, dog, pig). ``week`` is a selector:
+        'current', 'prev', or 'next' (not a date). ``data`` has ``sign``,
+        ``week`` (e.g. "08 Nov 2026 to 14 Nov 2026") and ``prediction``
+        (growth, health, wealth, career, love, family, fortune).
+        """
+        return self._c.post(HOST, "/api/v3/chinese-horoscope-weekly", {
+            "sign": sign, "week": week, "tzone": tzone, "lan": lan,
+        })
+
+    def chinese_monthly(
+        self,
+        sign: str,
+        month: str,
+        tzone: float,
+        lan: str = "en",
+    ) -> Dict[str, Any]:
+        """Monthly Chinese Horoscope.
+
+        ``month`` is a selector: 'current', 'prev', or 'next' (not a month
+        number). ``data`` has ``sign``, ``month`` (e.g. "November 2026") and
+        ``prediction``, shaped like :meth:`chinese_weekly`.
+        """
+        return self._c.post(HOST, "/api/v3/chinese-horoscope-monthly", {
+            "sign": sign, "month": month, "tzone": tzone, "lan": lan,
+        })
+
+    def chinese_yearly(
+        self,
+        sign: str,
+        year: str,
+        tzone: float,
+        lan: str = "en",
+    ) -> Dict[str, Any]:
+        """Yearly Chinese Horoscope.
+
+        ``year`` is a selector: 'current', 'prev', or 'next' (not a calendar
+        year). ``data`` has ``sign``, ``year`` and ``prediction``, shaped like
+        :meth:`chinese_weekly`.
+        """
+        return self._c.post(HOST, "/api/v3/chinese-horoscope-yearly", {
+            "sign": sign, "year": year, "tzone": tzone, "lan": lan,
         })
 
     def numerology(
