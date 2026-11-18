@@ -91,6 +91,22 @@ class NumerologyApi:
             "lan": lan,
         })
 
+    def business_name_correction(
+        self, business_name: str, full_name: str,
+        day: int, month: int, year: int,
+    ) -> Dict[str, Any]:
+        """Business Name Correction: check a business name against its owner's numbers.
+
+        ``full_name`` and ``day``/``month``/``year`` are the owner's name and
+        birth date. ``data`` has business_name_number, name_number, life_path_number, birthday_number, business_name_alignment_percentage, target_business_name_number, is_already_aligned, suggested_business_names (up to 3 respellings that reach the target number) and content (heading, description, advice).
+        The response is English only (the endpoint has no ``lan``).
+        """
+        return self._c.post("astroapi-7", "/numerology/v1/business-name-correction", {
+            "business_name": business_name,
+            "full_name": full_name,
+            "day": day, "month": month, "year": year,
+        })
+
     def birthday_number(self, **kw: Any) -> Dict[str, Any]:
         """Birthday Number."""
         return self._c.post("astroapi-7", "/numerology/v1/birthday-number", self._name_dob(**kw))

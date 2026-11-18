@@ -108,6 +108,10 @@ client.horoscope.yearly(sign="virgo", year="current", tzone=5.5)
 
 # Chinese & Numerology Horoscope
 client.horoscope.chinese(sign="rat", h_day="today", tzone=5.5)
+# Chinese weekly / monthly / yearly: sign is a Chinese animal; current / prev / next
+client.horoscope.chinese_weekly(sign="rat", week="current", tzone=5.5)
+client.horoscope.chinese_monthly(sign="dragon", month="current", tzone=5.5)
+client.horoscope.chinese_yearly(sign="tiger", year="current", tzone=5.5)
 client.horoscope.numerology(number=7, day=10, month=3, year=2024, tzone=5.5)
 
 # Tarot & Readings
@@ -156,6 +160,11 @@ birth = dict(
 )
 
 client.indian.kundli.basic_astro_details(**birth)
+# weekday="vedic": the day changes at sunrise, so a birth before sunrise gets the
+# previous day's vaar. "civil" (default) changes it at midnight. Also accepted by
+# varshphal_varsha_pravesh, varshphal_basic_astro_details and
+# lal_kitab_varshphal_varsha_pravesh.
+client.indian.kundli.basic_astro_details(**birth, weekday="vedic")
 client.indian.kundli.planetary_positions(**birth)
 client.indian.kundli.manglik_dosha(**birth)
 client.indian.kundli.vimshottari_dasha(**birth)
@@ -208,6 +217,11 @@ client.indian.kundli.bhava_group_predictions(**birth)
 client.indian.kundli.planet_remedies("sun", **birth)   # analysis_planet + birth
 ```
 
+> **Endpoint versions changed in 1.19.0** (to match the API docs and the Node SDK):
+> - `sub_planet_chart` now calls v1. Before 1.19.0 it called `/indian-api/v2/sub-planet-chart`, which does not exist, so every call failed with a 404.
+> - `jaimini_planetary_positions`, `kp_planetary_positions` and `sub_planet_positions` now call v2. The response is the same except two nakshatra spellings: `Mrigshira` is now `Mrigashira` and `Shravana` is now `Shravan`.
+> - `shadbala` now calls v3, which adds `ishta_phala` and `kashta_phala` (one value per planet). Every other field is unchanged.
+
 ### Indian Astrology - Match Making
 
 ```python
@@ -246,6 +260,8 @@ client.indian.festival.sankranti_festivals(
 )
 ```
 
+> **`shraavana_festivals` calls v3 since 1.19.0** (the other eleven months have no v3 and stay on v2). In v2, `hariyaali_teej`, `gayatri_jayanti`, `narali_purnima` and `sanskrit_divas` returned their date under `dates` instead of `date`; v3 fixes those four. `shraavana_somvaar_vrat` and `mangla_gauri_vrat` still use `dates` because they fall on every Monday and Tuesday of the month.
+
 ### Western Astrology - Natal
 
 ```python
@@ -274,6 +290,10 @@ client.western.natal.persona_chart(persona_planet="moon", **birth_w)
 > - invalid input now raises `ValidationError` (HTTP 422) instead of returning `{"success": 2}`.
 >
 > The `data` list is otherwise unchanged: same fields, same types, identical values for the other 17 bodies.
+
+> **`general_sign_report`, `general_house_report` and `moon_phases` call v2 since 1.19.0** (the PHP and Node SDKs already did):
+> - in both reports, `data.report` is now a list of `{"heading": ..., "description": ...}` sections instead of one string, so code that treated it as text must loop over the sections;
+> - `moon_phases` keeps `phase_no`, `phase_name` and `phase_degree` and adds `natal_moon` (`full_degree`, `longitude`, `sign`, `house`) and a `content` block describing the phase.
 
 ### Western Astrology - Synastry
 
@@ -306,6 +326,10 @@ client.western.transit.planet_retrograde(
 client.numerology.loshu_grid(fname="John", lname="Doe", day=1, month=1, year=1990)
 client.numerology.name_number(fname="John", lname="Doe", day=1, month=1, year=1990)
 client.numerology.name_correction(full_name="John Doe", day=1, month=1, year=1990)
+# Business name vs the owner's numbers; suggests up to 3 respellings when it can be improved
+client.numerology.business_name_correction(
+    business_name="Sunrise Traders", full_name="John Doe", day=1, month=1, year=1990
+)
 
 # Core numbers
 client.numerology.core_numbers(

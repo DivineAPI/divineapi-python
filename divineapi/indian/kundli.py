@@ -6,6 +6,8 @@ from ..client import BaseClient
 
 HOST = "astroapi-3"
 
+WEEKDAY_MODES = ("civil", "vedic")
+
 
 class KundliApi:
     """Kundli / birth-chart endpoints."""
@@ -37,13 +39,26 @@ class KundliApi:
     def _post_birth(self, path: str, **kw: Any) -> Dict[str, Any]:
         return self._c.post(HOST, path, self._birth(**kw))
 
+    @staticmethod
+    def _with_weekday(kw: Dict[str, Any], weekday: Optional[str]) -> Dict[str, Any]:
+        # Not sent when None, so the API applies its default ("civil").
+        if weekday is not None:
+            wd = str(weekday).strip().lower()
+            if wd not in WEEKDAY_MODES:
+                raise ValueError(f"weekday must be 'civil' or 'vedic', got {weekday!r}")
+            kw["weekday"] = wd
+        return kw
+
     # ------------------------------------------------------------------ #
     # Jaimini (5 endpoints)
     # ------------------------------------------------------------------ #
 
     def jaimini_planetary_positions(self, **kw: Any) -> Dict[str, Any]:
-        """Jaimini Planetary Positions."""
-        return self._post_birth("/indian-api/v1/jaimini-astrology/planetary-positions", **kw)
+        """Jaimini Planetary Positions (v2: nakshatra spellings Mrigashira, Shravan).
+
+        Only planetary-positions has a v2; padas and karakamsha-lagna stay on v1.
+        """
+        return self._post_birth("/indian-api/v2/jaimini-astrology/planetary-positions", **kw)
 
     def jaimini_padas(self, **kw: Any) -> Dict[str, Any]:
         """Jaimini Padas."""
@@ -70,20 +85,23 @@ class KundliApi:
     # ------------------------------------------------------------------ #
 
     def sub_planet_positions(self, **kw: Any) -> Dict[str, Any]:
-        """Sub Planet Positions."""
-        return self._post_birth("/indian-api/v1/sub-planet-positions", **kw)
+        """Sub Planet Positions (v2: nakshatra spellings Mrigashira, Shravan)."""
+        return self._post_birth("/indian-api/v2/sub-planet-positions", **kw)
 
     def sub_planet_chart(self, **kw: Any) -> Dict[str, Any]:
-        """Sub Planet Chart (supports chart styling params via **kw)."""
-        return self._post_birth("/indian-api/v2/sub-planet-chart", **kw)
+        """Sub Planet Chart (supports chart styling params via **kw).
+
+        v1 is the only version: there is no v2 sub-planet-chart (it returns 404).
+        """
+        return self._post_birth("/indian-api/v1/sub-planet-chart", **kw)
 
     # ------------------------------------------------------------------ #
     # KP (5 endpoints)
     # ------------------------------------------------------------------ #
 
     def kp_planetary_positions(self, **kw: Any) -> Dict[str, Any]:
-        """KP Planetary Positions."""
-        return self._post_birth("/indian-api/v1/kp/planetary-positions", **kw)
+        """KP Planetary Positions (v2: nakshatra spellings Mrigashira, Shravan)."""
+        return self._post_birth("/indian-api/v2/kp/planetary-positions", **kw)
 
     def kp_cuspal(self, **kw: Any) -> Dict[str, Any]:
         """KP Cuspal."""
@@ -238,9 +256,18 @@ class KundliApi:
     # General Kundli endpoints (birth-data based)
     # ------------------------------------------------------------------ #
 
-    def basic_astro_details(self, **kw: Any) -> Dict[str, Any]:
-        """Basic Astro Details."""
-        return self._post_birth("/indian-api/v3/basic-astro-details", **kw)
+    def basic_astro_details(self, *, weekday: Optional[str] = None, **kw: Any) -> Dict[str, Any]:
+        """Basic Astro Details.
+
+        ``vaar`` is the weekday of birth; with ``weekday="vedic"`` a birth
+        before sunrise gets the previous day.
+
+        ``weekday`` (optional): ``"civil"`` (the API default) changes the day
+        at midnight; ``"vedic"`` changes it at local sunrise, so a moment
+        between midnight and sunrise belongs to the previous day. Raises
+        ``ValueError`` for any other value.
+        """
+        return self._post_birth("/indian-api/v3/basic-astro-details", **self._with_weekday(kw, weekday))
 
     def planetary_positions(self, **kw: Any) -> Dict[str, Any]:
         """Planetary Positions."""
@@ -285,8 +312,8 @@ class KundliApi:
         return self._post_birth("/indian-api/v1/ghata-chakra", **kw)
 
     def shadbala(self, **kw: Any) -> Dict[str, Any]:
-        """Shadbala."""
-        return self._post_birth("/indian-api/v2/shadbala", **kw)
+        """Shadbala (v3: adds ``ishta_phala`` and ``kashta_phala`` per planet)."""
+        return self._post_birth("/indian-api/v3/shadbala", **kw)
 
     def gemstone_suggestion(self, **kw: Any) -> Dict[str, Any]:
         """Gemstone Suggestions."""
@@ -399,10 +426,21 @@ class KundliApi:
         kw["house_no"] = house_no
         return self._post_birth("/indian-api/v1/lal-kitab/house-signification", **kw)
 
-    def lal_kitab_varshphal_varsha_pravesh(self, varshphal_year: int, **kw: Any) -> Dict[str, Any]:
-        """Lal Kitab Varshphal Varsha Pravesh for the given year."""
+    def lal_kitab_varshphal_varsha_pravesh(
+        self, varshphal_year: int, *, weekday: Optional[str] = None, **kw: Any
+    ) -> Dict[str, Any]:
+        """Lal Kitab Varshphal Varsha Pravesh for the given year.
+
+        ``weekday`` in the response is the day of the Varsha Pravesh moment;
+        with ``weekday="vedic"`` a moment before sunrise gets the previous day.
+
+        ``weekday`` (optional): ``"civil"`` (the API default) changes the day
+        at midnight; ``"vedic"`` changes it at local sunrise, so a moment
+        between midnight and sunrise belongs to the previous day. Raises
+        ``ValueError`` for any other value.
+        """
         kw["varshphal_year"] = varshphal_year
-        return self._post_birth("/indian-api/v1/lal-kitab/varshphal/varsha-pravesh", **kw)
+        return self._post_birth("/indian-api/v1/lal-kitab/varshphal/varsha-pravesh", **self._with_weekday(kw, weekday))
 
     def lal_kitab_varshphal_planetary_positions(self, varshphal_year: int, **kw: Any) -> Dict[str, Any]:
         """Lal Kitab Varshphal Planetary Positions for the given year."""
@@ -457,15 +495,37 @@ class KundliApi:
         return self._post_birth("/indian-api/v1/rudraksha-suggestion", **kw)
 
 
-    def varshphal_varsha_pravesh(self, varshphal_year: int, **kw: Any) -> Dict[str, Any]:
-        """Varshphal Varsha Pravesh for the given year."""
-        kw["varshphal_year"] = varshphal_year
-        return self._post_birth("/indian-api/v1/varshphal/varsha-pravesh", **kw)
+    def varshphal_varsha_pravesh(
+        self, varshphal_year: int, *, weekday: Optional[str] = None, **kw: Any
+    ) -> Dict[str, Any]:
+        """Varshphal Varsha Pravesh for the given year.
 
-    def varshphal_basic_astro_details(self, varshphal_year: int, **kw: Any) -> Dict[str, Any]:
-        """Varshphal Basic Astro Details for the given year."""
+        ``weekday`` in the response is the day of the Varsha Pravesh moment;
+        with ``weekday="vedic"`` a moment before sunrise gets the previous day.
+
+        ``weekday`` (optional): ``"civil"`` (the API default) changes the day
+        at midnight; ``"vedic"`` changes it at local sunrise, so a moment
+        between midnight and sunrise belongs to the previous day. Raises
+        ``ValueError`` for any other value.
+        """
         kw["varshphal_year"] = varshphal_year
-        return self._post_birth("/indian-api/v1/varshphal/basic-astro-details", **kw)
+        return self._post_birth("/indian-api/v1/varshphal/varsha-pravesh", **self._with_weekday(kw, weekday))
+
+    def varshphal_basic_astro_details(
+        self, varshphal_year: int, *, weekday: Optional[str] = None, **kw: Any
+    ) -> Dict[str, Any]:
+        """Varshphal Basic Astro Details for the given year.
+
+        ``vaar`` is the day of the Varsha Pravesh moment; with
+        ``weekday="vedic"`` a moment before sunrise gets the previous day.
+
+        ``weekday`` (optional): ``"civil"`` (the API default) changes the day
+        at midnight; ``"vedic"`` changes it at local sunrise, so a moment
+        between midnight and sunrise belongs to the previous day. Raises
+        ``ValueError`` for any other value.
+        """
+        kw["varshphal_year"] = varshphal_year
+        return self._post_birth("/indian-api/v1/varshphal/basic-astro-details", **self._with_weekday(kw, weekday))
 
     def varshphal_planetary_positions(self, varshphal_year: int, **kw: Any) -> Dict[str, Any]:
         """Varshphal Planetary Positions for the given year."""
