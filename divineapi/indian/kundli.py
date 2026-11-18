@@ -190,7 +190,7 @@ class KundliApi:
 
         Returns ``current_dasha`` (maha, antar and pratyantar dasha) and
         ``dasha_timeline``: the full 120-year tree from the current
-        mahadasha, 819 periods (about 74 KB).
+        mahadasha, 819 periods (about 68 KB).
         """
         return self._c.post(HOST, "/indian-api/v1/kp-prashna/dasha", self._prashna(**kw))
 

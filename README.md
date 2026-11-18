@@ -191,7 +191,7 @@ asked = dict(day=12, month=10, year=2026, hour=10, min=30,
 client.indian.kundli.kp_prashna_instant_questions()      # question categories + house_hint
 client.indian.kundli.kp_prashna_chart(horary_number=100, **asked)   # number 1-249
 client.indian.kundli.kp_prashna_ruling_planets(**asked)
-client.indian.kundli.kp_prashna_dasha(**asked)           # full 819-period timeline (~74 KB)
+client.indian.kundli.kp_prashna_dasha(**asked)           # full 819-period timeline (~68 KB)
 
 # Dasha analysis (no birth data needed)
 client.indian.kundli.maha_dasha_analysis(maha_dasha="Sun")
