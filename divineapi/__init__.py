@@ -31,7 +31,7 @@ from .numerology import NumerologyApi
 from .pdf import PdfReportApi
 from .western import WesternApi
 
-__version__ = "1.22.0"
+__version__ = "1.23.0"
 
 __all__ = [
     "DivineApi",
@@ -97,8 +97,9 @@ class DivineApi:
             gender="male", method="pythagorean",
         )
 
-        # Location (place name -> lat, lon, timezone)
+        # Location (place name -> lat, lon, timezone; the offset on a birth date)
         client.location.search(place="Patna")
+        client.location.timezone(1275004, day=15, month=7, year=1990, hour=14, min=30)
 
         # Astro Chatbot (needs an Astro Chatbot plan): birth details once per session
         client.chatbot.chat(

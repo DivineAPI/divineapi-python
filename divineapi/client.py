@@ -94,6 +94,35 @@ class BaseClient:
         # Should never reach here, but just in case:
         raise NetworkError(str(last_exc))  # pragma: no cover
 
+    def get(self, host: str, path: str) -> Dict[str, Any]:
+        """Send a GET request with no body, e.g. a service health check.
+
+        Args:
+            host: Key from ``HOSTS`` (e.g. ``"geolocation"``).
+            path: API path (e.g. ``"/health"``).
+
+        Returns:
+            Parsed JSON response as a dict.
+
+        Raises:
+            DivineApiError (or subclass) on failure.
+        """
+        url = f"{HOSTS[host]}{path}"
+        last_exc: Optional[Exception] = None
+        for attempt in range(1, self.max_retries + 1):
+            try:
+                resp = self._session.get(url, timeout=self.timeout)
+                return self._handle_response(resp)
+            except NetworkError:
+                raise
+            except requests.RequestException as exc:
+                last_exc = exc
+                if attempt == self.max_retries:
+                    raise NetworkError(
+                        f"Request to {url} failed after {self.max_retries} attempts: {exc}"
+                    ) from exc
+        raise NetworkError(str(last_exc))  # pragma: no cover
+
     def post_json(
         self,
         host: str,
