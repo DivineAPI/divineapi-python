@@ -7,8 +7,17 @@ from .client import BaseClient
 HOST = "astroapi-5"
 
 
+def _special_info(enabled: bool) -> Optional[int]:
+    """The Chinese endpoints add ``special`` only for ``special_info=1``.
+
+    ``True`` would be sent as "True", which the API ignores. ``None`` is left
+    out of the form, so the default request is unchanged.
+    """
+    return 1 if enabled else None
+
+
 class HoroscopeApi:
-    """32 endpoints covering horoscopes, tarot, and miscellaneous readings."""
+    """33 endpoints covering horoscopes, tarot, and miscellaneous readings."""
 
     def __init__(self, client: BaseClient) -> None:
         self._c = client
@@ -90,10 +99,17 @@ class HoroscopeApi:
         h_day: str,
         tzone: float,
         lan: str = "en",
+        special_info: bool = False,
     ) -> Dict[str, Any]:
-        """Chinese Horoscope (daily: ``h_day`` is 'today', 'tomorrow' or 'yesterday')."""
+        """Chinese Horoscope (daily: ``h_day`` is 'today', 'tomorrow' or 'yesterday').
+
+        ``data`` has ``sign``, ``date`` and ``prediction`` (growth, health,
+        wealth, career, love, family, fortune). ``special_info=True`` adds
+        ``data["special"]``; see :meth:`chinese_weekly`.
+        """
         return self._c.post(HOST, "/api/v3/chinese-horoscope", {
             "sign": sign, "h_day": h_day, "tzone": tzone, "lan": lan,
+            "special_info": _special_info(special_info),
         })
 
     def chinese_weekly(
@@ -102,6 +118,7 @@ class HoroscopeApi:
         week: str,
         tzone: float,
         lan: str = "en",
+        special_info: bool = False,
     ) -> Dict[str, Any]:
         """Weekly Chinese Horoscope.
 
@@ -110,9 +127,15 @@ class HoroscopeApi:
         'current', 'prev', or 'next' (not a date). ``data`` has ``sign``,
         ``week`` (e.g. "08 Nov 2026 to 14 Nov 2026") and ``prediction``
         (growth, health, wealth, career, love, family, fortune).
+
+        ``special_info=True`` adds ``data["special"]``: ``lucky_colors`` (two
+        colours, each ``{"name", "hex"}``), ``horoscope_percentage`` (0-100 for
+        growth, health, wealth, career, love, family and luck) and ``summary``
+        (a short overview). The default leaves the response unchanged.
         """
         return self._c.post(HOST, "/api/v3/chinese-horoscope-weekly", {
             "sign": sign, "week": week, "tzone": tzone, "lan": lan,
+            "special_info": _special_info(special_info),
         })
 
     def chinese_monthly(
@@ -121,15 +144,18 @@ class HoroscopeApi:
         month: str,
         tzone: float,
         lan: str = "en",
+        special_info: bool = False,
     ) -> Dict[str, Any]:
         """Monthly Chinese Horoscope.
 
         ``month`` is a selector: 'current', 'prev', or 'next' (not a month
         number). ``data`` has ``sign``, ``month`` (e.g. "November 2026") and
-        ``prediction``, shaped like :meth:`chinese_weekly`.
+        ``prediction``, shaped like :meth:`chinese_weekly`, as is
+        ``special_info``.
         """
         return self._c.post(HOST, "/api/v3/chinese-horoscope-monthly", {
             "sign": sign, "month": month, "tzone": tzone, "lan": lan,
+            "special_info": _special_info(special_info),
         })
 
     def chinese_yearly(
@@ -138,15 +164,36 @@ class HoroscopeApi:
         year: str,
         tzone: float,
         lan: str = "en",
+        special_info: bool = False,
     ) -> Dict[str, Any]:
         """Yearly Chinese Horoscope.
 
         ``year`` is a selector: 'current', 'prev', or 'next' (not a calendar
         year). ``data`` has ``sign``, ``year`` and ``prediction``, shaped like
-        :meth:`chinese_weekly`.
+        :meth:`chinese_weekly`, as is ``special_info``.
         """
         return self._c.post(HOST, "/api/v3/chinese-horoscope-yearly", {
             "sign": sign, "year": year, "tzone": tzone, "lan": lan,
+            "special_info": _special_info(special_info),
+        })
+
+    def chinese_yearly_top_signs(
+        self,
+        year: str,
+        tzone: float,
+        lan: str = "en",
+    ) -> Dict[str, Any]:
+        """Top 3 Chinese signs of the year in each life area.
+
+        There is no sign: the answer ranks all twelve animals. ``year`` is a
+        selector: 'current', 'prev', or 'next' (not a calendar year).
+        ``data`` has ``year`` (e.g. "2026") and ``areas``, a dict keyed by area
+        (career, health, love, wealth) whose values are three
+        ``{"rank", "sign", "reason"}`` entries sorted by rank (1 = best).
+        A year without a ranking answers ``success`` 0, "Data not found.".
+        """
+        return self._c.post(HOST, "/api/v3/chinese-yearly-top-signs", {
+            "year": year, "tzone": tzone, "lan": lan,
         })
 
     def numerology(

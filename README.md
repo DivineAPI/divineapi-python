@@ -112,6 +112,12 @@ client.horoscope.chinese(sign="rat", h_day="today", tzone=5.5)
 client.horoscope.chinese_weekly(sign="rat", week="current", tzone=5.5)
 client.horoscope.chinese_monthly(sign="dragon", month="current", tzone=5.5)
 client.horoscope.chinese_yearly(sign="tiger", year="current", tzone=5.5)
+# special_info=True on any of the four adds data["special"]: lucky_colors
+# ([{"name", "hex"}] x2), horoscope_percentage (growth ... luck, 0-100) and summary
+res = client.horoscope.chinese_yearly(sign="dog", year="current", tzone=5.5, special_info=True)
+res["data"]["special"]["lucky_colors"]   # [{'name': 'Red', 'hex': '#D7263D'}, ...]
+# Top 3 signs of the year per area (no sign): {"year", "areas": {"career": [{rank, sign, reason}] x3, ...}}
+client.horoscope.chinese_yearly_top_signs(year="current", tzone=5.5)
 client.horoscope.numerology(number=7, day=10, month=3, year=2024, tzone=5.5)
 
 # Tarot & Readings
